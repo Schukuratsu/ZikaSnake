@@ -35,8 +35,10 @@ use ieee.std_logic_unsigned.all;
 entity main is
     Port ( 
         -- INTERFACES
+        -- basic controls
         clk : in std_logic;
         rst_n : in std_logic;
+        
         vga_port : out std_logic_vector (10 downto 0); --arrumar tamanho da porta vga
         audio_port : out std_logic_vector (10 downto 0); --arrumar tamanho da porta de audio
         accel_x : in std_logic_vector (10 downto 0); --arrumar tamanho da porta de audio
@@ -53,10 +55,13 @@ architecture rtl of main is
     -- SIGNALS
     
     -- MODULES
-    -- vga module
+    -- vga module: recebe informações do video controller
+    -- video controller: traduz máquinas de estados e mapa para fios 
     -- áudio module
     -- acelerometro module
     -- btn module
+    -- game logic module
+    -- map module
 
 begin
 
