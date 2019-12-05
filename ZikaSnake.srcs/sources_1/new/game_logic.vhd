@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 12.11.2019 12:09:08
+-- Create Date: 13.11.2019 12:11:54
 -- Design Name: 
--- Module Name: accel_controller - rtl
+-- Module Name: game_logic - rtl
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -31,11 +31,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity accel_controller is
+entity game_logic is
 --  Port ( );
-end accel_controller;
+end game_logic;
 
-architecture rtl of accel_controller is
+architecture rtl of game_logic is
 
 begin
 
