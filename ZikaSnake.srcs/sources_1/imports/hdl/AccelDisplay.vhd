@@ -38,14 +38,14 @@ use IEEE.NUMERIC_STD.ALL;
 entity AccelDisplay is
     Generic 
            (
-             X_XY_WIDTH   : natural := 511; -- Width of the Accelerometer frame X-Y region
-             X_MAG_WIDTH  : natural := 50;  -- Width of the Accelerometer frame Magnitude region
-             Y_HEIGHT     : natural := 511; -- Height of the Accelerometer frame
-             X_START      : natural := 385; -- Accelerometer frame X-Y region starting horizontal location
-             Y_START      : natural := 80; -- Accelerometer frame starting vertical location
-             BG_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"FFF"; -- Background color - white
-             ACTIVE_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"0F0"; -- Green when inside the threshold box
-             WARNING_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"F00" -- Red when outside the threshold box
+             X_XY_WIDTH   : natural := 1280; -- Width of the Accelerometer frame X-Y region
+             X_MAG_WIDTH  : natural := 0;  -- Width of the Accelerometer frame Magnitude region
+             Y_HEIGHT     : natural := 1024; -- Height of the Accelerometer frame
+             X_START      : natural := 0; -- Accelerometer frame X-Y region starting horizontal location
+             Y_START      : natural := 0; -- Accelerometer frame starting vertical location
+             BG_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"000"; -- Background color - white
+             ACTIVE_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"FFF";  -- Green when inside the threshold box
+             WARNING_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"FFF" -- Red when outside the threshold box
            );
     Port
           ( 
@@ -68,8 +68,10 @@ architecture Behavioral of AccelDisplay is
 
 --dependent constants
 constant X_WIDTH: natural := X_XY_WIDTH + X_MAG_WIDTH; -- width of the entire Accelerometer frame
+--constant X_WIDTH: natural := X_XY_WIDTH + X_MAG_WIDTH; -- width of the entire Accelerometer frame
 
 -- Horizontal midpoint location of the Accelerometer frame X-Y region
+--constant FR_XY_H_MID : natural := natural(round(real(1280/2)));
 constant FR_XY_H_MID : natural := natural(round(real(X_XY_WIDTH/2)));
 -- Vertical midpoint location of the Accelerometer X-Y region
 constant FR_XY_V_MID : natural := natural(round(real(Y_HEIGHT/2)));
@@ -114,13 +116,13 @@ begin
 -- Moving box limits
 MOVING_BOX_LEFT   <= X_START - conv_integer(ACCEL_RADIUS) - 1;
 MOVING_BOX_RIGHT  <= X_START + conv_integer(ACCEL_RADIUS) + 1;
-MOVING_BOX_TOP	   <= Y_START - conv_integer(ACCEL_RADIUS) - 1;
+MOVING_BOX_TOP	  <= Y_START - conv_integer(ACCEL_RADIUS) - 1;
 MOVING_BOX_BOTTOM <= Y_START + conv_integer(ACCEL_RADIUS) + 1;
 
 --Threshold box limits
-THRESHOLD_BOX_LEFT	<= FR_XY_H_MID + X_START - conv_integer(LEVEL_THRESH) - 1;
-THRESHOLD_BOX_RIGHT	<= FR_XY_H_MID + X_START + conv_integer(LEVEL_THRESH) + 1;
-THRESHOLD_BOX_TOP		<= FR_XY_V_MID + Y_START - conv_integer(LEVEL_THRESH) - 1;
+THRESHOLD_BOX_LEFT	 <= FR_XY_H_MID + X_START - conv_integer(LEVEL_THRESH) - 1;
+THRESHOLD_BOX_RIGHT	 <= FR_XY_H_MID + X_START + conv_integer(LEVEL_THRESH) + 1;
+THRESHOLD_BOX_TOP    <= FR_XY_V_MID + Y_START - conv_integer(LEVEL_THRESH) - 1;
 THRESHOLD_BOX_BOTTOM <= FR_XY_V_MID + Y_START + conv_integer(LEVEL_THRESH) + 1;
 
 -- Create the moving box signal
@@ -135,22 +137,25 @@ draw_moving_box <= '1' when H_COUNT_I > (("000" & ACCEL_Y_I) + MOVING_BOX_LEFT)
                     else '0';
 
 --Create the magnitude level signal
+--draw_magnitude_level <= '0';
 draw_magnitude_level <= '1' when   H_COUNT_I >= (X_MAG_START - 1)
                               and  H_COUNT_I <= X_MAG_END
-                              and (V_COUNT_I + ("000" & ACCEL_MAG_I)) >= Y_END 
+                              and (V_COUNT_I + ("000" & ACCEL_X_I)) >= Y_END 
+--                              and (V_COUNT_I + ("000" & ACCEL_MAG_I)) >= Y_END 
                               and  V_COUNT_I <= Y_END    
                         else '0';
  
 --Create the threshold box signal 
-draw_threshold_box <= '1' when ((H_COUNT_I = THRESHOLD_BOX_LEFT or H_COUNT_I = THRESHOLD_BOX_RIGHT)  -- Left and Right vertical lines
-                            and  V_COUNT_I >= THRESHOLD_BOX_TOP 
-                            and  V_COUNT_I <= THRESHOLD_BOX_BOTTOM )
-                             or 
-                               ((V_COUNT_I = THRESHOLD_BOX_TOP or  V_COUNT_I = THRESHOLD_BOX_BOTTOM) -- Top and Bottom Horizontal Lines
-                            and  H_COUNT_I >= THRESHOLD_BOX_LEFT 
-                            and  H_COUNT_I <= THRESHOLD_BOX_RIGHT) 
+draw_threshold_box <= '0'; 
+--draw_threshold_box <= '1' when ((H_COUNT_I = THRESHOLD_BOX_LEFT or H_COUNT_I = THRESHOLD_BOX_RIGHT)  -- Left and Right vertical lines
+--                            and  V_COUNT_I >= THRESHOLD_BOX_TOP 
+--                            and  V_COUNT_I <= THRESHOLD_BOX_BOTTOM )
+--                             or 
+--                               ((V_COUNT_I = THRESHOLD_BOX_TOP or  V_COUNT_I = THRESHOLD_BOX_BOTTOM) -- Top and Bottom Horizontal Lines
+--                            and  H_COUNT_I >= THRESHOLD_BOX_LEFT 
+--                            and  H_COUNT_I <= THRESHOLD_BOX_RIGHT) 
                           
-                          else '0';
+--                          else '0';
                
 -- The moving box is green when inside the threshold box and red when outside                          
 level_color <= ACTIVE_COLOR when  ACCEL_Y_I >= (FR_XY_V_MID - LEVEL_THRESH) -- Upper boundary

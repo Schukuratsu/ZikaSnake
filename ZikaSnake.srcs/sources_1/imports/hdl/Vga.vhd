@@ -75,26 +75,26 @@ entity Vga is
            VGA_GREEN_O  : out  STD_LOGIC_VECTOR (3 downto 0); -- Green signal going to the VGA interface
            VGA_BLUE_O   : out  STD_LOGIC_VECTOR (3 downto 0); -- Blue signal going to the VGA interface
            -- Input Signals
---           -- RGB LED
---           RGB_LED_RED    : in STD_LOGIC_VECTOR (7 downto 0);
---           RGB_LED_GREEN  : in STD_LOGIC_VECTOR (7 downto 0);
---           RGB_LED_BLUE   : in STD_LOGIC_VECTOR (7 downto 0);
+           -- RGB LED
+           RGB_LED_RED    : in STD_LOGIC_VECTOR (7 downto 0);
+           RGB_LED_GREEN  : in STD_LOGIC_VECTOR (7 downto 0);
+           RGB_LED_BLUE   : in STD_LOGIC_VECTOR (7 downto 0);
            -- Accelerometer
            ACCEL_RADIUS : in  STD_LOGIC_VECTOR (11 downto 0); -- Size of the box moving when the board is tilted
            LEVEL_THRESH : in  STD_LOGIC_VECTOR (11 downto 0); -- Size of the internal box in which the moving box is green
            ACL_X_IN       : in  STD_LOGIC_VECTOR (8 downto 0); -- X Acceleration Data
            ACL_Y_IN       : in  STD_LOGIC_VECTOR (8 downto 0); -- Y Acceleration Data
-           ACL_MAG_IN     : in  STD_LOGIC_VECTOR (11 downto 0) -- Acceleration Magnitude
---           -- Microphone
---           MIC_M_DATA_I : IN STD_LOGIC; -- Input microphone data
---           MIC_M_CLK_RISING  : IN STD_LOGIC; -- Active when the data from the microphone is read
---           -- Mouse signals
---           MOUSE_X_POS :  in std_logic_vector (11 downto 0); -- X position from the mouse
---           MOUSE_Y_POS :  in std_logic_vector (11 downto 0); -- Y position from the mouse
---           -- Temperature data signals
---           XADC_TEMP_VALUE_I     : in std_logic_vector (11 downto 0); -- FPGA Temperature data from the XADC
---           ADT7420_TEMP_VALUE_I  : in std_logic_vector (12 downto 0); -- Temperature data from the Onboard Temperature Sensor
---           ADXL362_TEMP_VALUE_I  : in std_logic_vector (11 downto 0)  -- Temperature Data from the Accelerometer
+           ACL_MAG_IN     : in  STD_LOGIC_VECTOR (11 downto 0); -- Acceleration Magnitude
+           -- Microphone
+           MIC_M_DATA_I : IN STD_LOGIC; -- Input microphone data
+           MIC_M_CLK_RISING  : IN STD_LOGIC; -- Active when the data from the microphone is read
+           -- Mouse signals
+           MOUSE_X_POS :  in std_logic_vector (11 downto 0); -- X position from the mouse
+           MOUSE_Y_POS :  in std_logic_vector (11 downto 0); -- Y position from the mouse
+           -- Temperature data signals
+           XADC_TEMP_VALUE_I     : in std_logic_vector (11 downto 0); -- FPGA Temperature data from the XADC
+           ADT7420_TEMP_VALUE_I  : in std_logic_vector (12 downto 0); -- Temperature data from the Onboard Temperature Sensor
+           ADXL362_TEMP_VALUE_I  : in std_logic_vector (11 downto 0)  -- Temperature Data from the Accelerometer
            );
 end Vga;
 
@@ -120,22 +120,22 @@ architecture Behavioral of Vga is
 --    );
 --   END COMPONENT;
 
-   -- Display the Digilent Nexys 4 and Analog Devices Logo
-	COMPONENT LogoDisplay
-	GENERIC(
-      X_START : integer range 2 to (Integer'high) := 40; -- Logo Starting Horizontal Location
-      Y_START : integer := 512 -- Logo Starting Vertical Location
-	);
-	PORT(
-		CLK_I : IN std_logic;
-		H_COUNT_I : IN std_logic_vector(11 downto 0);
-		V_COUNT_I : IN std_logic_vector(11 downto 0);
-      -- Logo Red, Green and Blue signals
-		RED_O : OUT std_logic_vector(3 downto 0);
-		BLUE_O : OUT std_logic_vector(3 downto 0);
-		GREEN_O : OUT std_logic_vector(3 downto 0)
-		);
-	END COMPONENT;
+--   -- Display the Digilent Nexys 4 and Analog Devices Logo
+--	COMPONENT LogoDisplay
+--	GENERIC(
+--      X_START : integer range 2 to (Integer'high) := 40; -- Logo Starting Horizontal Location
+--      Y_START : integer := 512 -- Logo Starting Vertical Location
+--	);
+--	PORT(
+--		CLK_I : IN std_logic;
+--		H_COUNT_I : IN std_logic_vector(11 downto 0);
+--		V_COUNT_I : IN std_logic_vector(11 downto 0);
+--      -- Logo Red, Green and Blue signals
+--		RED_O : OUT std_logic_vector(3 downto 0);
+--		BLUE_O : OUT std_logic_vector(3 downto 0);
+--		GREEN_O : OUT std_logic_vector(3 downto 0)
+--		);
+--	END COMPONENT;
    
 --   -- Display the overlay
 --   COMPONENT OverlayCtl
@@ -232,14 +232,14 @@ architecture Behavioral of Vga is
 	COMPONENT AccelDisplay
   	GENERIC
    (
-      X_XY_WIDTH   : natural := 511; -- Width of the Accelerometer frame X-Y region
+      X_XY_WIDTH   : natural := 1000; -- Width of the Accelerometer frame X-Y region
       X_MAG_WIDTH  : natural := 50;  -- Width of the Accelerometer frame Magnitude region
-      Y_HEIGHT     : natural := 511; -- Height of the Accelerometer frame
-      X_START      : natural := 385; -- Accelerometer frame X-Y region starting horizontal location
-      Y_START      : natural := 80; -- Accelerometer frame starting vertical location
+      Y_HEIGHT     : natural := 900; -- Height of the Accelerometer frame
+      X_START      : natural := 50; -- Accelerometer frame X-Y region starting horizontal location
+      Y_START      : natural := 50; -- Accelerometer frame starting vertical location
       BG_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"FFF"; -- Background color - white
-      ACTIVE_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"0F0"; -- Green when inside the threshold box
-      WARNING_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"F00" -- Red when outside the threshold box
+      ACTIVE_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"000"; -- Green when inside the threshold box
+      WARNING_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"000" -- Red when outside the threshold box
 	);
 	PORT
    (
@@ -258,7 +258,7 @@ architecture Behavioral of Vga is
 	);
 	END COMPONENT;
    
-   -- Display the Mouse cursor
+--   -- Display the Mouse cursor
 --   COMPONENT MouseDisplay
 --   PORT (
 --      pixel_clk: in std_logic;
@@ -488,14 +488,14 @@ constant MIC_BOTTOM			: natural := FRM_MIC_V_LOC + SZ_MIC_HEIGHT + 1;
 
 --------------------------------------------------------------------------
 -- Accelerometer X and Y data is scaled to 0-511 pixels, such as 0: -1g, 255: 0g, 511: +1g
-constant SZ_ACL_XY_WIDTH   : natural := 511; -- Width of the Accelerometer frame X-Y Region
+constant SZ_ACL_XY_WIDTH   : natural := 1000; -- Width of the Accelerometer frame X-Y Region
 constant SZ_ACL_MAG_WIDTH  : natural := 45; -- Width of the Accelerometer frame Magnitude Region
 constant SZ_ACL_WIDTH  		: natural := SZ_ACL_XY_WIDTH + SZ_ACL_MAG_WIDTH; -- Width of the entire Accelerometer frame
-constant SZ_ACL_HEIGHT 		: natural := 511; -- Height of the Accelerometer frame
+constant SZ_ACL_HEIGHT 		: natural := 900; -- Height of the Accelerometer frame
 
-constant FRM_ACL_H_LOC 		: natural := 385; -- Accelerometer frame X-Y region starting horizontal location
+constant FRM_ACL_H_LOC 		: natural := 50; -- Accelerometer frame X-Y region starting horizontal location
 constant FRM_ACL_MAG_LOC 	: natural := FRM_ACL_H_LOC + SZ_ACL_MAG_WIDTH; -- Accelerometer frame Magnitude Region starting horizontal location
-constant FRM_ACL_V_LOC 		: natural := 80; -- Accelerometer frame starting vertical location
+constant FRM_ACL_V_LOC 		: natural := 50; -- Accelerometer frame starting vertical location
 -- Accelerometer Display frame limits
 constant ACL_LEFT				: natural := FRM_ACL_H_LOC - 1;
 constant ACL_RIGHT			: natural := FRM_ACL_H_LOC + SZ_ACL_WIDTH + 1;
@@ -811,13 +811,13 @@ register_inputs: process (pxl_clk, v_sync_reg)
       if v_sync_reg = V_POL then -- All of the signals, except the incoming microphone data 
                                  -- have lover frequencies than the vertical refresh rate,
                                  -- therefore will be registered in the blanking area
---         RGB_LED_RED_REG   <= RGB_LED_RED (4 downto 0); -- The RGB LEDs are turned on at a lower than maximum intensity,
---         RGB_LED_GREEN_REG <= RGB_LED_GREEN (4 downto 0); -- therefore the five least significant bits are used only
---         RGB_LED_BLUE_REG  <= RGB_LED_BLUE (4 downto 0);
+         RGB_LED_RED_REG   <= RGB_LED_RED (4 downto 0); -- The RGB LEDs are turned on at a lower than maximum intensity,
+         RGB_LED_GREEN_REG <= RGB_LED_GREEN (4 downto 0); -- therefore the five least significant bits are used only
+         RGB_LED_BLUE_REG  <= RGB_LED_BLUE (4 downto 0);
          
---         XADC_TEMP_VALUE_I_REG      <= XADC_TEMP_VALUE_I;
---         ADT7420_TEMP_VALUE_I_REG   <= ADT7420_TEMP_VALUE_I;
---         ADXL362_TEMP_VALUE_I_REG   <= ADXL362_TEMP_VALUE_I;
+         XADC_TEMP_VALUE_I_REG      <= XADC_TEMP_VALUE_I;
+         ADT7420_TEMP_VALUE_I_REG   <= ADT7420_TEMP_VALUE_I;
+         ADXL362_TEMP_VALUE_I_REG   <= ADXL362_TEMP_VALUE_I;
 
          ACCEL_RADIUS_REG <= ACCEL_RADIUS;
          LEVEL_THRESH_REG <= LEVEL_THRESH;
@@ -826,33 +826,33 @@ register_inputs: process (pxl_clk, v_sync_reg)
          ACL_MAG_IN_REG <= ACL_MAG_IN;
      
          
---         MOUSE_X_POS_REG <= MOUSE_X_POS;
---         MOUSE_Y_POS_REG <= MOUSE_Y_POS;
---         MOUSE_LEFT_BUTTON_REG <= MOUSE_LEFT_BUTTON_REG;
+         MOUSE_X_POS_REG <= MOUSE_X_POS;
+         MOUSE_Y_POS_REG <= MOUSE_Y_POS;
+         MOUSE_LEFT_BUTTON_REG <= MOUSE_LEFT_BUTTON_REG;
       end if;   
       -- Incoming Microphone data rate is faster than VSYNC, therefore is registered on the pixel clock
---      MIC_M_DATA_I_REG <= MIC_M_DATA_I;
+      MIC_M_DATA_I_REG <= MIC_M_DATA_I;
     end if;
 end process register_inputs;
 
---------------------------
+----------------------------
 
--- Logo display instance
+---- Logo display instance
 
---------------------------
- 	Inst_LogoDisplay: LogoDisplay 
-	GENERIC MAP(
-		X_START	=> FRM_LOGO_H_LOC,
-		Y_START	=> FRM_LOGO_V_LOC
-	)
-	PORT MAP(
-		CLK_I => pxl_clk,
-		H_COUNT_I => h_cntr_reg,
-		V_COUNT_I => v_cntr_reg,
-		RED_O    => logo_red,
-		BLUE_O   => logo_blue,
-		GREEN_O  => logo_green
-	);
+----------------------------
+-- 	Inst_LogoDisplay: LogoDisplay 
+--	GENERIC MAP(
+--		X_START	=> FRM_LOGO_H_LOC,
+--		Y_START	=> FRM_LOGO_V_LOC
+--	)
+--	PORT MAP(
+--		CLK_I => pxl_clk,
+--		H_COUNT_I => h_cntr_reg,
+--		V_COUNT_I => v_cntr_reg,
+--		RED_O    => logo_red,
+--		BLUE_O   => logo_blue,
+--		GREEN_O  => logo_green
+--	);
    
 -- --------------------------------
 
@@ -1026,11 +1026,11 @@ end process register_inputs;
 	 );
     
 
-----------------------------------
+------------------------------------
 
--- Mouse Cursor display instance
+---- Mouse Cursor display instance
 
-----------------------------------
+------------------------------------
 --   Inst_MouseDisplay: MouseDisplay
 --   PORT MAP 
 --   (
@@ -1045,11 +1045,11 @@ end process register_inputs;
 --      blue_out    => mouse_cursor_blue
 --   );
 
-----------------------------------
+------------------------------------
 
--- Overlay display instance
+---- Overlay display instance
 
-----------------------------------
+------------------------------------
 --    	Inst_OverlayCtrl: OverlayCtl 
 --      PORT MAP
 --      (

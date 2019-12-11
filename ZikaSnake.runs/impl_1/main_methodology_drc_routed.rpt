@@ -1,0 +1,45 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2018.3 (win64) Build 2405991 Thu Dec  6 23:38:27 MST 2018
+| Date         : Wed Dec 11 08:48:51 2019
+| Host         : DESKTOP-UMDKHO6 running 64-bit major release  (build 9200)
+| Command      : report_methodology -file main_methodology_drc_routed.rpt -pb main_methodology_drc_routed.pb -rpx main_methodology_drc_routed.rpx
+| Design       : main
+| Device       : xc7a100tcsg324-1
+| Speed File   : -1
+| Design State : Fully Routed
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Report Methodology
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: design_1
+      Design limits: <entire design considered>
+             Max violations: <unlimited>
+             Violations found: 2
++----------+----------+------------------------------------------------+------------+
+| Rule     | Severity | Description                                    | Violations |
++----------+----------+------------------------------------------------+------------+
+| TIMING-6 | Warning  | No common primary clock between related clocks | 2          |
++----------+----------+------------------------------------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+TIMING-6#1 Warning
+No common primary clock between related clocks  
+The clocks clk_100MHz_o_ClkGen and clk_100MHz_o_ClkGen_1 are related (timed together) but they have no common primary clock. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks clk_100MHz_o_ClkGen] -to [get_clocks clk_100MHz_o_ClkGen_1]
+Related violations: <none>
+
+TIMING-6#2 Warning
+No common primary clock between related clocks  
+The clocks clk_100MHz_o_ClkGen_1 and clk_100MHz_o_ClkGen are related (timed together) but they have no common primary clock. The design could fail in hardware. To find a timing path between these clocks, run the following command: report_timing -from [get_clocks clk_100MHz_o_ClkGen_1] -to [get_clocks clk_100MHz_o_ClkGen]
+Related violations: <none>
+
+
