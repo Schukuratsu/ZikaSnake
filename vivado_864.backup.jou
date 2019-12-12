@@ -1,0 +1,30 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Tue Dec  3 19:10:59 2019
+# Process ID: 864
+# Current directory: C:/Users/lucas/chilinquis/ZikaSnake
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent2852 C:\Users\lucas\chilinquis\ZikaSnake\ZikaSnake.xpr
+# Log file: C:/Users/lucas/chilinquis/ZikaSnake/vivado.log
+# Journal file: C:/Users/lucas/chilinquis/ZikaSnake\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.xpr
+update_compile_order -fileset sources_1
+add_files -scan_for_includes {C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/AccelerometerCtl.vhd C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/AudioDemo.vhd C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/FPGAMonitor.vhd C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/Vga.vhd C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/ip/Square_Root/Square_Root.xci C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/AccelDisplay.vhd C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/ADXL362Ctrl.vhd C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/AccelArithmetics.vhd}
+export_ip_user_files -of_objects  [get_files  C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/ip/Square_Root/Square_Root.xci] -lib_map_path [list {modelsim=C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.cache/compile_simlib/modelsim} {questa=C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.cache/compile_simlib/questa} {riviera=C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.cache/compile_simlib/riviera} {activehdl=C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.cache/compile_simlib/activehdl}] -force -quiet
+import_files {C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/AccelerometerCtl.vhd C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/AudioDemo.vhd C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/FPGAMonitor.vhd C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/Vga.vhd C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/ip/Square_Root/Square_Root.xci C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/AccelDisplay.vhd C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/ADXL362Ctrl.vhd C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/AccelArithmetics.vhd}
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+add_files -norecurse -scan_for_includes C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/SPI_If.vhd
+import_files -norecurse C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/SPI_If.vhd
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+add_files -norecurse -scan_for_includes C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/LogoDisplay.vhd
+import_files -norecurse C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/hdl/LogoDisplay.vhd
+update_compile_order -fileset sources_1
+add_files -scan_for_includes C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/ip/BRAM_1/BRAM_1.xci
+export_ip_user_files -of_objects  [get_files  C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/ip/BRAM_1/BRAM_1.xci] -lib_map_path [list {modelsim=C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.cache/compile_simlib/modelsim} {questa=C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.cache/compile_simlib/questa} {riviera=C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.cache/compile_simlib/riviera} {activehdl=C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.cache/compile_simlib/activehdl}] -force -quiet
+import_files C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/ip/BRAM_1/BRAM_1.xci
+update_compile_order -fileset sources_1

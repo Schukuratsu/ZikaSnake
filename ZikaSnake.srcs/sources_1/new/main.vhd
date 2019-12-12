@@ -91,9 +91,9 @@ PORT(
 --   RGB_LED_BLUE   : in STD_LOGIC_VECTOR (7 downto 0);
     ACCEL_RADIUS   : in  STD_LOGIC_VECTOR (11 downto 0);
     LEVEL_THRESH   : in  STD_LOGIC_VECTOR (11 downto 0);
-    ACL_X_IN       : in  STD_LOGIC_VECTOR (8 downto 0);
-    ACL_Y_IN       : in  STD_LOGIC_VECTOR (8 downto 0);
-    ACL_MAG_IN     : in  STD_LOGIC_VECTOR (11 downto 0)
+    ACL_X_IN       : in  STD_LOGIC_VECTOR (11 downto 0);
+    ACL_Y_IN       : in  STD_LOGIC_VECTOR (11 downto 0);
+    ACL_MAG_IN     : in  STD_LOGIC_VECTOR (11 downto 0);
 --   MIC_M_DATA_I   : IN STD_LOGIC;
 --   MIC_M_CLK_RISING  : IN STD_LOGIC;
 --   MOUSE_X_POS    :  in std_logic_vector (11 downto 0);
@@ -101,6 +101,10 @@ PORT(
 --   XADC_TEMP_VALUE_I : in std_logic_vector (11 downto 0);
 --   ADT7420_TEMP_VALUE_I : in std_logic_vector (12 downto 0);
 --   ADXL362_TEMP_VALUE_I : in std_logic_vector (11 downto 0)
+-- Fruit
+    fruit_x     : in std_logic_vector (11 downto 0);
+    fruit_y  : in std_logic_vector (11 downto 0);
+    colision_trigger  : out std_logic
    );
 END COMPONENT;
 
@@ -143,10 +147,22 @@ Port (
     -- Accelerometer
     --    ACCEL_RADIUS : out  STD_LOGIC_VECTOR (11 downto 0); -- Size of the box moving when the board is tilted
     --    LEVEL_THRESH : out  STD_LOGIC_VECTOR (11 downto 0); -- Size of the internal box in which the moving box is green
-    ACL_X_OUT       : out  STD_LOGIC_VECTOR (8 downto 0); -- X Acceleration Data
-    ACL_Y_OUT       : out  STD_LOGIC_VECTOR (8 downto 0); -- Y Acceleration Data
+    ACL_X_OUT       : out  STD_LOGIC_VECTOR (11 downto 0); -- X Acceleration Data
+    ACL_Y_OUT       : out  STD_LOGIC_VECTOR (11 downto 0); -- Y Acceleration Data
     ACL_MAG_OUT     : out  STD_LOGIC_VECTOR (11 downto 0) -- Acceleration Magnitude
 );
+end component;
+
+component FruitCtl
+    Port ( 
+           --input
+           clk : in STD_LOGIC;
+           eaten : in STD_LOGIC;
+           snake_x_pos : in STD_LOGIC_VECTOR (11 downto 0);
+           snake_y_pos : in STD_LOGIC_VECTOR (11 downto 0);
+           --output
+           x_pos : out STD_LOGIC_VECTOR (11 downto 0);
+           y_pos : out STD_LOGIC_VECTOR (11 downto 0));
 end component;
     
 -- 200 MHz Clock Generator
@@ -188,9 +204,14 @@ signal ACCEL_TMP  : STD_LOGIC_VECTOR (11 downto 0);
 
 
 -- teste do módulo AccelerometerConverter
-signal acl_x : STD_LOGIC_VECTOR (8 downto 0);
-signal acl_y : STD_LOGIC_VECTOR (8 downto 0);
+signal acl_x : STD_LOGIC_VECTOR (11 downto 0);
+signal acl_y : STD_LOGIC_VECTOR (11 downto 0);
 signal acl_mag : STD_LOGIC_VECTOR (11 downto 0);
+
+-- teste do módulo AccelerometerConverter
+signal fruit_x : STD_LOGIC_VECTOR (11 downto 0);
+signal fruit_y : STD_LOGIC_VECTOR (11 downto 0);
+signal colision_trigger : STD_LOGIC;
 
 
 
@@ -266,6 +287,22 @@ begin
    );
 
 ----------------------------------------------------------------------------------
+-- Fruit Controller
+----------------------------------------------------------------------------------
+    Inst_FruitCtl : FruitCtl
+    Port map( 
+       --input
+       clk => clk_100MHz_buf,
+       eaten => colision_trigger,
+       snake_x_pos => acl_x,
+       snake_y_pos => acl_y,
+       --output
+       x_pos => fruit_x,
+       y_pos => fruit_y
+);
+
+
+----------------------------------------------------------------------------------
 -- VGA Controller
 ----------------------------------------------------------------------------------
    Inst_VGA: Vga
@@ -279,11 +316,11 @@ begin
 --      RGB_LED_RED    => rgb_led_red,
 --      RGB_LED_GREEN  => rgb_led_green,
 --      RGB_LED_BLUE   => rgb_led_blue,
-      ACCEL_RADIUS   => X"007",
-      LEVEL_THRESH   => X"020",
+      ACCEL_RADIUS   => X"010",
+      LEVEL_THRESH   => X"000",
       ACL_X_IN       => acl_x,
       ACL_Y_IN       => acl_y,
-      ACL_MAG_IN     => acl_mag
+      ACL_MAG_IN     => acl_mag,
 --      MIC_M_DATA_I   => pdm_data_i,
 --      MIC_M_CLK_RISING => pdm_clk_rising,
 --      MOUSE_X_POS    => MOUSE_X_POS,
@@ -291,6 +328,10 @@ begin
 --      XADC_TEMP_VALUE_I => fpgaTempValue,
 --      ADT7420_TEMP_VALUE_I => tempValue,
 --      ADXL362_TEMP_VALUE_I => ACCEL_TMP
+   -- Fruit
+   fruit_x => fruit_x,
+   fruit_y => fruit_y,
+   colision_trigger => colision_trigger
       );  
 
 end rtl;

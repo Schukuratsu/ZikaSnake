@@ -82,8 +82,8 @@ entity Vga is
            -- Accelerometer
            ACCEL_RADIUS : in  STD_LOGIC_VECTOR (11 downto 0); -- Size of the box moving when the board is tilted
            LEVEL_THRESH : in  STD_LOGIC_VECTOR (11 downto 0); -- Size of the internal box in which the moving box is green
-           ACL_X_IN       : in  STD_LOGIC_VECTOR (8 downto 0); -- X Acceleration Data
-           ACL_Y_IN       : in  STD_LOGIC_VECTOR (8 downto 0); -- Y Acceleration Data
+           ACL_X_IN       : in  STD_LOGIC_VECTOR (11 downto 0); -- X Acceleration Data
+           ACL_Y_IN       : in  STD_LOGIC_VECTOR (11 downto 0); -- Y Acceleration Data
            ACL_MAG_IN     : in  STD_LOGIC_VECTOR (11 downto 0); -- Acceleration Magnitude
            -- Microphone
            MIC_M_DATA_I : IN STD_LOGIC; -- Input microphone data
@@ -94,7 +94,11 @@ entity Vga is
            -- Temperature data signals
            XADC_TEMP_VALUE_I     : in std_logic_vector (11 downto 0); -- FPGA Temperature data from the XADC
            ADT7420_TEMP_VALUE_I  : in std_logic_vector (12 downto 0); -- Temperature data from the Onboard Temperature Sensor
-           ADXL362_TEMP_VALUE_I  : in std_logic_vector (11 downto 0)  -- Temperature Data from the Accelerometer
+           ADXL362_TEMP_VALUE_I  : in std_logic_vector (11 downto 0);  -- Temperature Data from the Accelerometer
+           -- Fruit
+           fruit_x     : in std_logic_vector (11 downto 0);
+           fruit_y  : in std_logic_vector (11 downto 0);
+           colision_trigger  : out std_logic
            );
 end Vga;
 
@@ -232,11 +236,11 @@ architecture Behavioral of Vga is
 	COMPONENT AccelDisplay
   	GENERIC
    (
-      X_XY_WIDTH   : natural := 1000; -- Width of the Accelerometer frame X-Y region
-      X_MAG_WIDTH  : natural := 50;  -- Width of the Accelerometer frame Magnitude region
-      Y_HEIGHT     : natural := 900; -- Height of the Accelerometer frame
-      X_START      : natural := 50; -- Accelerometer frame X-Y region starting horizontal location
-      Y_START      : natural := 50; -- Accelerometer frame starting vertical location
+      X_XY_WIDTH   : natural := 1280; -- Width of the Accelerometer frame X-Y region
+      X_MAG_WIDTH  : natural := 0;  -- Width of the Accelerometer frame Magnitude region
+      Y_HEIGHT     : natural := 1024; -- Height of the Accelerometer frame
+      X_START      : natural := 0; -- Accelerometer frame X-Y region starting horizontal location
+      Y_START      : natural := 0; -- Accelerometer frame starting vertical location
       BG_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"FFF"; -- Background color - white
       ACTIVE_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"000"; -- Green when inside the threshold box
       WARNING_COLOR : STD_LOGIC_VECTOR (11 downto 0) := x"000" -- Red when outside the threshold box
@@ -246,8 +250,8 @@ architecture Behavioral of Vga is
 		CLK_I : IN std_logic;
 		H_COUNT_I : IN std_logic_vector(11 downto 0);
 		V_COUNT_I : IN std_logic_vector(11 downto 0);
-		ACCEL_X_I : IN std_logic_vector(8 downto 0); -- X acceleration input data
-		ACCEL_Y_I : IN std_logic_vector(8 downto 0); -- Y acceleration input data
+		ACCEL_X_I : IN std_logic_vector(11 downto 0); -- X acceleration input data
+		ACCEL_Y_I : IN std_logic_vector(11 downto 0); -- Y acceleration input data
 		ACCEL_MAG_I : IN std_logic_vector(8 downto 0); -- Acceleration magnitude input data
       ACCEL_RADIUS : IN  STD_LOGIC_VECTOR (11 downto 0); -- Size of the box moving according to acceleration data
       LEVEL_THRESH : IN  STD_LOGIC_VECTOR (11 downto 0); -- Size of the threshold box
@@ -488,19 +492,19 @@ constant MIC_BOTTOM			: natural := FRM_MIC_V_LOC + SZ_MIC_HEIGHT + 1;
 
 --------------------------------------------------------------------------
 -- Accelerometer X and Y data is scaled to 0-511 pixels, such as 0: -1g, 255: 0g, 511: +1g
-constant SZ_ACL_XY_WIDTH   : natural := 1000; -- Width of the Accelerometer frame X-Y Region
-constant SZ_ACL_MAG_WIDTH  : natural := 45; -- Width of the Accelerometer frame Magnitude Region
+constant SZ_ACL_XY_WIDTH   : natural := 1280; -- Width of the Accelerometer frame X-Y Region
+constant SZ_ACL_MAG_WIDTH  : natural := 0; -- Width of the Accelerometer frame Magnitude Region
 constant SZ_ACL_WIDTH  		: natural := SZ_ACL_XY_WIDTH + SZ_ACL_MAG_WIDTH; -- Width of the entire Accelerometer frame
-constant SZ_ACL_HEIGHT 		: natural := 900; -- Height of the Accelerometer frame
+constant SZ_ACL_HEIGHT 		: natural := 1024; -- Height of the Accelerometer frame
 
-constant FRM_ACL_H_LOC 		: natural := 50; -- Accelerometer frame X-Y region starting horizontal location
+constant FRM_ACL_H_LOC 		: natural := 0; -- Accelerometer frame X-Y region starting horizontal location
 constant FRM_ACL_MAG_LOC 	: natural := FRM_ACL_H_LOC + SZ_ACL_MAG_WIDTH; -- Accelerometer frame Magnitude Region starting horizontal location
-constant FRM_ACL_V_LOC 		: natural := 50; -- Accelerometer frame starting vertical location
+constant FRM_ACL_V_LOC 		: natural := 0; -- Accelerometer frame starting vertical location
 -- Accelerometer Display frame limits
-constant ACL_LEFT				: natural := FRM_ACL_H_LOC - 1;
-constant ACL_RIGHT			: natural := FRM_ACL_H_LOC + SZ_ACL_WIDTH + 1;
-constant ACL_TOP				: natural := FRM_ACL_V_LOC - 1;
-constant ACL_BOTTOM			: natural := FRM_ACL_V_LOC + SZ_ACL_HEIGHT + 1;
+constant ACL_LEFT				: natural := FRM_ACL_H_LOC;
+constant ACL_RIGHT			: natural := FRM_ACL_H_LOC + SZ_ACL_WIDTH;
+constant ACL_TOP				: natural := FRM_ACL_V_LOC;
+constant ACL_BOTTOM			: natural := FRM_ACL_V_LOC + SZ_ACL_HEIGHT;
 
 
 -------------------------------------------------------------------------
@@ -563,8 +567,8 @@ signal ADXL362_TEMP_VALUE_I_REG  : std_logic_vector (11 downto 0);
 
 signal ACCEL_RADIUS_REG : STD_LOGIC_VECTOR (11 downto 0);
 signal LEVEL_THRESH_REG : STD_LOGIC_VECTOR (11 downto 0);
-signal ACL_X_IN_REG     : STD_LOGIC_VECTOR (8 downto 0);
-signal ACL_Y_IN_REG     : STD_LOGIC_VECTOR (8 downto 0);
+signal ACL_X_IN_REG     : STD_LOGIC_VECTOR (11 downto 0);
+signal ACL_Y_IN_REG     : STD_LOGIC_VECTOR (11 downto 0);
 signal ACL_MAG_IN_REG   : STD_LOGIC_VECTOR (11 downto 0);
 
 signal MIC_M_DATA_I_REG : STD_LOGIC;
@@ -572,6 +576,9 @@ signal MIC_M_DATA_I_REG : STD_LOGIC;
 signal MOUSE_X_POS_REG  : std_logic_vector (11 downto 0);
 signal MOUSE_Y_POS_REG  : std_logic_vector (11 downto 0);
 signal MOUSE_LEFT_BUTTON_REG : std_logic;
+
+signal fruit_x_reg  : std_logic_vector (11 downto 0);
+signal fruit_y_reg  : std_logic_vector (11 downto 0);
 
 -----------------------------------------------------------
 -- Signals for generating the background (moving colorbar)
@@ -723,6 +730,16 @@ signal enable_mouse_display_dly  :  std_logic;
 -- Registered Overlay display signal
 signal overlay_en_dly : std_logic; 
 
+--fruit
+signal fruit_left   : std_logic_vector (11 downto 0);
+signal fruit_right  : std_logic_vector (11 downto 0);
+signal fruit_top	: std_logic_vector (11 downto 0); 
+signal fruit_bottom : std_logic_vector (11 downto 0);
+
+signal fruit_red_dly   : std_logic_vector (3 downto 0) := x"F";
+signal fruit_green_dly : std_logic_vector (3 downto 0) := x"0"; 
+signal fruit_blue_dly  : std_logic_vector (3 downto 0) := x"0";
+
 begin
   
   pxl_clk <= CLK_I; 
@@ -824,6 +841,10 @@ register_inputs: process (pxl_clk, v_sync_reg)
          ACL_X_IN_REG <= ACL_X_IN;
          ACL_Y_IN_REG <= ACL_Y_IN;
          ACL_MAG_IN_REG <= ACL_MAG_IN;
+         
+         --fruit
+         fruit_x_reg <= fruit_x;
+         fruit_y_reg <= fruit_y;
      
          
          MOUSE_X_POS_REG <= MOUSE_X_POS;
@@ -834,163 +855,6 @@ register_inputs: process (pxl_clk, v_sync_reg)
       MIC_M_DATA_I_REG <= MIC_M_DATA_I;
     end if;
 end process register_inputs;
-
-----------------------------
-
----- Logo display instance
-
-----------------------------
--- 	Inst_LogoDisplay: LogoDisplay 
---	GENERIC MAP(
---		X_START	=> FRM_LOGO_H_LOC,
---		Y_START	=> FRM_LOGO_V_LOC
---	)
---	PORT MAP(
---		CLK_I => pxl_clk,
---		H_COUNT_I => h_cntr_reg,
---		V_COUNT_I => v_cntr_reg,
---		RED_O    => logo_red,
---		BLUE_O   => logo_blue,
---		GREEN_O  => logo_green
---	);
-   
--- --------------------------------
-
----- Temperature display instances
-
------------------------------------
--- ----------------------------------------------------
----- FPGA Temperature - from the XADC temperature data
--------------------------------------------------------
---   Inst_XadcTempDisplay: TempDisplay
---   GENERIC MAP(
---           X_TMP_COL_WIDTH    => SZ_TEMP_WIDTH, -- width of the TEMP column
---           Y_TMP_COL_HEIGHT   => SZ_TEMP_HEIGHT,-- height of the TEMP column
---           X_TMP_H_LOC        => FRM_XADC_TEMP_H_LOC, -- X Location of the FPGA TEMP Column
---           Y_TMP_V_LOC        => FRM_XADC_TEMP_V_LOC, -- Y Location of the FPGA TEMP Column
---           INPUT_DATA_WIDTH   => 12,
---           TMP_TYPE           => "XADC"
---           )
---    PORT MAP ( 
---           CLK_I        => pxl_clk,
---           TEMP_IN      => XADC_TEMP_VALUE_I_REG,
---           H_COUNT_I    => h_cntr_reg,
---           V_COUNT_I    => v_cntr_reg,
---           -- Temperature Red, Green and Blue signals
---           TEMP_R_OUT   => xadc_temp_red,
---           TEMP_G_OUT   => xadc_temp_green,
---           TEMP_B_OUT   => xadc_temp_blue
---          );
-          
----------------------------------------------------
----- ADT740 onboard temperature sensor temperature
----------------------------------------------------
---   Inst_Adt7420TempDisplay: TempDisplay
---   GENERIC MAP (
---           X_TMP_COL_WIDTH    => SZ_TEMP_WIDTH, -- width of the TEMP column
---           Y_TMP_COL_HEIGHT   => SZ_TEMP_HEIGHT,-- height of the TEMP column
---           X_TMP_H_LOC        => FRM_ADT7420_TEMP_H_LOC, -- X Location of the Temp Sensor Column
---           Y_TMP_V_LOC        => FRM_ADT7420_TEMP_V_LOC, -- Y Location of the Temp Sensor Column
---           INPUT_DATA_WIDTH   => 13,
---           TMP_TYPE           => "TEMP_ACC"
---           )
---    PORT MAP (
---           CLK_I        => pxl_clk,
---           TEMP_IN      => ADT7420_TEMP_VALUE_I_REG,
---           H_COUNT_I    => h_cntr_reg,
---           V_COUNT_I    => v_cntr_reg,
---           -- Temperature Red, Green and Blue signals
---           TEMP_R_OUT   => adt7420_temp_red,
---           TEMP_G_OUT   => adt7420_temp_green,
---           TEMP_B_OUT   => adt7420_temp_blue
---          );
-------------------------------------------------------
----- ADXL362 onboard accelerometer temperature sensor
-------------------------------------------------------
---    Inst_Adxl362TempDisplay: TempDisplay
---   GENERIC MAP(
---           X_TMP_COL_WIDTH    => SZ_TEMP_WIDTH, -- width of the TEMP column
---           Y_TMP_COL_HEIGHT   => SZ_TEMP_HEIGHT,-- height of the TEMP column
---           X_TMP_H_LOC        => FRM_ADXL362_TEMP_H_LOC, -- X Location of the ACC Temp Column
---           Y_TMP_V_LOC        => FRM_ADXL362_TEMP_V_LOC, -- Y Location of the Acc Temp Column
---           INPUT_DATA_WIDTH   => 12,
---           TMP_TYPE           => "TEMP_ACC"
---           )
---    PORT MAP (
---           CLK_I        => pxl_clk,
---           TEMP_IN      => ADXL362_TEMP_VALUE_I_REG,
---           H_COUNT_I    => h_cntr_reg,
---           V_COUNT_I    => v_cntr_reg,
---           -- Temperature Red, Green and Blue signals
---           TEMP_R_OUT   => adxl362_temp_red,
---           TEMP_G_OUT   => adxl362_temp_green,
---           TEMP_B_OUT   => adxl362_temp_blue
---          ); 
-
--------------------------------
-
----- RGB LED display instance
-
--------------------------------
---   Inst_RGBLedDisplay: RgbLedDisplay
---   GENERIC MAP(
---           X_RGB_COL_WIDTH    => SZ_RGB_WIDTH, -- width of one RGB column
---           Y_RGB_COL_HEIGHT   => SZ_RGB_HEIGHT,-- height of one RGB column
---           X_RGB_R_LOC        => FRM_RGB_R_H_LOC, -- X Location of the RGB LED RED Column
---           X_RGB_G_LOC        => FRM_RGB_G_H_LOC, -- X Location of the RGB LED GREEN Column
---           X_RGB_B_LOC        => FRM_RGB_B_H_LOC, -- X Location of the RGB LED BLUE Column
---           Y_RGB_1_LOC        => FRM_RGB_1_V_LOC, -- Y Location of the RGB LED LD16 Column
---           Y_RGB_2_LOC        => FRM_RGB_2_V_LOC -- Y Location of the RGB LED LD17 Column
---           )
---    PORT MAP(
---           pxl_clk        => pxl_clk,
---           RGB_LED_RED    => RGB_LED_RED_REG,
---           RGB_LED_GREEN  => RGB_LED_GREEN_REG,
---           RGB_LED_BLUE   => RGB_LED_BLUE_REG,
---           H_COUNT_I      => h_cntr_reg,
---           V_COUNT_I      => v_cntr_reg,
---           -- RGB LED RED signal Data for the three columns
---           RGB_LED_R_RED_COL     => rgb_r_red_col,
---           RGB_LED_R_GREEN_COL   => rgb_r_green_col,
---           RGB_LED_R_BLUE_COL    => rgb_r_blue_col,
---           -- RGB LED GREEN signal Data for the three columns
---           RGB_LED_G_RED_COL     => rgb_g_red_col,
---           RGB_LED_G_GREEN_COL   => rgb_g_green_col,
---           RGB_LED_G_BLUE_COL    => rgb_g_blue_col,
---           -- RGB LED BLUE signal Data for the three columns
---           RGB_LED_B_RED_COL     => rgb_b_red_col,
---           RGB_LED_B_GREEN_COL   => rgb_b_green_col,
---           RGB_LED_B_BLUE_COL    => rgb_b_blue_col
---          ); 
-          
-----------------------------------------
-
----- Microphone signal display instance
-
-----------------------------------------
---	Inst_MicDisplay: MicDisplay 
---	GENERIC MAP(
---		X_WIDTH 	         => SZ_MIC_WIDTH,
---      Y_HEIGHT 		   => SZ_MIC_HEIGHT,
---      X_START 			   => FRM_MIC_H_LOC,
---      Y_START 			   => FRM_MIC_V_LOC,
---      PXLCLK_FREQ_HZ    => 108000000,
---      H_MAX             => H_MAX,
---      SAMPLE_RATE_DIV   => 4096,
---      BG_COLOR 		   => x"FFF",
---      ACTIVE_COLOR	   => x"008"
---	)
---	PORT MAP(
---		CLK_I             => pxl_clk,
---      SYSCLK            => CLK_I,
---		MIC_M_DATA_I      => MIC_M_DATA_I_REG,
---      MIC_M_CLK_RISING  => MIC_M_CLK_RISING,
---		H_COUNT_I         => h_cntr_reg,
---		V_COUNT_I         => v_cntr_reg,
---		RED_O             => mic_red,
---		GREEN_O           => mic_green,
---		BLUE_O            => mic_blue
---      );
 
               
 ----------------------------------
@@ -1026,40 +890,6 @@ end process register_inputs;
 	 );
     
 
-------------------------------------
-
----- Mouse Cursor display instance
-
-------------------------------------
---   Inst_MouseDisplay: MouseDisplay
---   PORT MAP 
---   (
---      pixel_clk   => pxl_clk,
---      xpos        => MOUSE_X_POS_REG, 
---      ypos        => MOUSE_Y_POS_REG,
---      hcount      => h_cntr_reg,
---      vcount      => v_cntr_reg,
---      enable_mouse_display_out  => enable_mouse_display,
---      red_out     => mouse_cursor_red,
---      green_out   => mouse_cursor_green,
---      blue_out    => mouse_cursor_blue
---   );
-
-------------------------------------
-
----- Overlay display instance
-
-------------------------------------
---    	Inst_OverlayCtrl: OverlayCtl 
---      PORT MAP
---      (
---		CLK_I       => pxl_clk,
---		VSYNC_I     => v_sync_reg,
---		ACTIVE_I    => active,
---		OVERLAY_O   => overlay_en
---      );
-  
-  
 ---------------------------------------
 
 -- Generate moving colorbar background
@@ -1106,8 +936,8 @@ end process register_inputs;
     if (rising_edge(pxl_clk)) then
    
       logo_red_dly		<= logo_red;
-		logo_green_dly	   <= logo_green;
-		logo_blue_dly		<= logo_blue;
+      logo_green_dly	<= logo_green;
+      logo_blue_dly		<= logo_blue;
 
       xadc_temp_red_dly    <= xadc_temp_red;
       xadc_temp_green_dly  <= xadc_temp_green;
@@ -1170,66 +1000,13 @@ end process register_inputs;
 -- Red
 ----------
 
-  vga_red <=   -- Mouse_cursor_display is on the top of others
-               mouse_cursor_red_dly when enable_mouse_display_dly = '1'
-               else
-               -- Overlay display is black 
-               x"0" when overlay_en_dly = '1'
-               else
-               -- logo display
-               logo_red_dly when h_cntr_reg_dly > LOGO_LEFT and h_cntr_reg_dly < LOGO_RIGHT 
-                             and v_cntr_reg_dly < LOGO_BOTTOM and v_cntr_reg_dly > LOGO_TOP               
-               else
-               -- Temperature display
-               xadc_temp_red_dly when h_cntr_reg_dly > XADC_TEMP_LEFT and h_cntr_reg_dly < XADC_TEMP_RIGHT 
-                                  and v_cntr_reg_dly > XADC_TEMP_TOP and v_cntr_reg_dly < XADC_TEMP_BOTTOM
-               else
-               adt7420_temp_red_dly when h_cntr_reg_dly > ADT7420_TEMP_LEFT and h_cntr_reg_dly < ADT7420_TEMP_RIGHT 
-                                     and v_cntr_reg_dly > ADT7420_TEMP_TOP and v_cntr_reg_dly < ADT7420_TEMP_BOTTOM
-               else
-               adxl362_temp_red_dly when h_cntr_reg_dly > ADXL362_TEMP_LEFT and h_cntr_reg_dly < ADXL362_TEMP_RIGHT 
-                                     and v_cntr_reg_dly > ADXL362_TEMP_TOP and v_cntr_reg_dly < ADXL362_TEMP_BOTTOM
-               else
-               -- TBOX display
-     			   tbox_red when h_cntr_reg_dly > TBOX_LEFT and h_cntr_reg_dly < TBOX_RIGHT 
-                         and v_cntr_reg_dly < TBOX_BOTTOM and v_cntr_reg_dly > TBOX_TOP
-               else
-               --  RGB Led display
-               rgb_r_red_col_dly when (h_cntr_reg_dly > RGB_R_COL_LEFT and h_cntr_reg_dly < RGB_R_COL_RIGHT) 
-                                  and 
-                                     (
-                                      (v_cntr_reg_dly > RGB1_COL_TOP and v_cntr_reg_dly < RGB1_COL_BOTTOM)
-                                      or
-                                      (v_cntr_reg_dly > RGB2_COL_TOP and v_cntr_reg_dly < RGB2_COL_BOTTOM)
-                                     )
-               else
-               rgb_r_green_col_dly when (h_cntr_reg_dly > RGB_G_COL_LEFT and h_cntr_reg_dly < RGB_G_COL_RIGHT) 
-                                    and 
-                                      (
-                                      (v_cntr_reg_dly > RGB1_COL_TOP and v_cntr_reg_dly < RGB1_COL_BOTTOM)
-                                    or
-                                      (v_cntr_reg_dly > RGB2_COL_TOP - 1 and v_cntr_reg_dly < RGB2_COL_BOTTOM)
-                                      )
-               else
-               rgb_r_blue_col_dly when (h_cntr_reg_dly > RGB_B_COL_LEFT and h_cntr_reg_dly < RGB_B_COL_RIGHT) 
-                                    and 
-                                       (
-                                        (v_cntr_reg_dly > RGB1_COL_TOP and v_cntr_reg_dly < RGB1_COL_BOTTOM)
-                                        or
-                                        (v_cntr_reg_dly > RGB2_COL_TOP and v_cntr_reg_dly < RGB2_COL_BOTTOM)
-                                       )
-               else
-               -- LBOX display
-               lbox_red when h_cntr_reg_dly > LBOX_LEFT and h_cntr_reg_dly < LBOX_RIGHT 
-                         and v_cntr_reg_dly < LBOX_BOTTOM and v_cntr_reg_dly > LBOX_TOP
-               else
-               -- Microphone data display
-               mic_red_dly when h_cntr_reg_dly > MIC_LEFT and h_cntr_reg_dly < MIC_RIGHT 
-                            and v_cntr_reg_dly > MIC_TOP and v_cntr_reg_dly < MIC_BOTTOM
+  vga_red <=   -- Fruit display
+               fruit_red_dly when h_cntr_reg_dly >= fruit_left and h_cntr_reg_dly <= fruit_right 
+                             and v_cntr_reg_dly >= fruit_top and v_cntr_reg_dly <= fruit_bottom
                else
                -- Accelerometer display   
-               acl_red_dly when h_cntr_reg_dly > ACL_LEFT and h_cntr_reg_dly < ACL_RIGHT 
-                            and v_cntr_reg_dly > ACL_TOP and v_cntr_reg_dly < ACL_BOTTOM
+               acl_red_dly when h_cntr_reg_dly >= ACL_LEFT and h_cntr_reg_dly <= ACL_RIGHT 
+                            and v_cntr_reg_dly >= ACL_TOP and v_cntr_reg_dly <= ACL_BOTTOM
                else
                -- Colorbar will be on the backround
                bg_red_dly;
@@ -1238,66 +1015,13 @@ end process register_inputs;
 -- Green
 -----------
 
-  vga_green <= -- Mouse_cursor_display is on the top of others
-               mouse_cursor_green_dly when enable_mouse_display_dly = '1'
-               else
-               -- Overlay display is black 
-               x"0" when overlay_en_dly = '1'
-               else
-               -- logo display
-               logo_green_dly when h_cntr_reg_dly > LOGO_LEFT and h_cntr_reg_dly < LOGO_RIGHT 
-                               and v_cntr_reg_dly < LOGO_BOTTOM and v_cntr_reg_dly > LOGO_TOP
-               else
-               -- Temperature display
-               xadc_temp_green_dly when h_cntr_reg_dly > XADC_TEMP_LEFT and h_cntr_reg_dly < XADC_TEMP_RIGHT 
-                                    and v_cntr_reg_dly > XADC_TEMP_TOP and v_cntr_reg_dly < XADC_TEMP_BOTTOM
-               else
-               adt7420_temp_green_dly when h_cntr_reg_dly > ADT7420_TEMP_LEFT and h_cntr_reg_dly < ADT7420_TEMP_RIGHT 
-                                       and v_cntr_reg_dly > ADT7420_TEMP_TOP and v_cntr_reg_dly < ADT7420_TEMP_BOTTOM
-               else
-               adxl362_temp_green_dly when h_cntr_reg_dly > ADXL362_TEMP_LEFT and h_cntr_reg_dly < ADXL362_TEMP_RIGHT 
-                                       and v_cntr_reg_dly > ADXL362_TEMP_TOP and v_cntr_reg_dly < ADXL362_TEMP_BOTTOM
-               else
-               -- TBOX display
-     			   tbox_green when h_cntr_reg_dly > TBOX_LEFT and h_cntr_reg_dly < TBOX_RIGHT 
-                           and v_cntr_reg_dly < TBOX_BOTTOM and v_cntr_reg_dly > TBOX_TOP
-               else
-               --  RGB Led display
-               rgb_g_red_col_dly when (h_cntr_reg_dly > RGB_R_COL_LEFT and h_cntr_reg_dly < RGB_R_COL_RIGHT) 
-                                  and 
-                                     (
-                                      (v_cntr_reg_dly > RGB1_COL_TOP and v_cntr_reg_dly < RGB1_COL_BOTTOM)
-                                      or
-                                      (v_cntr_reg_dly > RGB2_COL_TOP and v_cntr_reg_dly < RGB2_COL_BOTTOM)
-                                     )
-               else
-               rgb_g_green_col_dly when (h_cntr_reg_dly > RGB_G_COL_LEFT and h_cntr_reg_dly < RGB_G_COL_RIGHT) 
-                                    and 
-                                      (
-                                      (v_cntr_reg_dly > RGB1_COL_TOP and v_cntr_reg_dly < RGB1_COL_BOTTOM)
-                                    or
-                                      (v_cntr_reg_dly > RGB2_COL_TOP - 1 and v_cntr_reg_dly < RGB2_COL_BOTTOM)
-                                      )
-               else
-               rgb_g_blue_col_dly when (h_cntr_reg_dly > RGB_B_COL_LEFT and h_cntr_reg_dly < RGB_B_COL_RIGHT) 
-                                    and 
-                                       (
-                                        (v_cntr_reg_dly > RGB1_COL_TOP and v_cntr_reg_dly < RGB1_COL_BOTTOM)
-                                        or
-                                        (v_cntr_reg_dly > RGB2_COL_TOP and v_cntr_reg_dly < RGB2_COL_BOTTOM)
-                                       )
-               else
-               -- LBOX display
-               lbox_green when h_cntr_reg_dly > LBOX_LEFT and h_cntr_reg_dly < LBOX_RIGHT 
-                           and v_cntr_reg_dly < LBOX_BOTTOM and v_cntr_reg_dly > LBOX_TOP
-               else
-               -- Microphone data display
-               mic_green_dly when h_cntr_reg_dly > MIC_LEFT and h_cntr_reg_dly < MIC_RIGHT 
-                              and v_cntr_reg_dly > MIC_TOP and v_cntr_reg_dly < MIC_BOTTOM
+  vga_green <= -- Fruit display
+               fruit_green_dly when h_cntr_reg_dly >= fruit_left and h_cntr_reg_dly <= fruit_right 
+                             and v_cntr_reg_dly >= fruit_top and v_cntr_reg_dly <= fruit_bottom
                else
                -- Accelerometer display
-               acl_green_dly when h_cntr_reg_dly > ACL_LEFT and h_cntr_reg_dly < ACL_RIGHT 
-                              and v_cntr_reg_dly > ACL_TOP and v_cntr_reg_dly < ACL_BOTTOM
+               acl_green_dly when h_cntr_reg_dly >= ACL_LEFT and h_cntr_reg_dly <= ACL_RIGHT 
+                              and v_cntr_reg_dly >= ACL_TOP and v_cntr_reg_dly <= ACL_BOTTOM
                else
                -- Colorbar will be on the backround
                bg_green_dly;
@@ -1306,66 +1030,13 @@ end process register_inputs;
 -- Blue
 -----------
 
-  vga_blue <=  -- Mouse_cursor_display is on the top of others
-               mouse_cursor_blue_dly when enable_mouse_display_dly = '1'
-               else
-               -- Overlay display is black 
-               x"0" when overlay_en_dly = '1'
-               else
-               -- logo display
-               logo_blue_dly when h_cntr_reg_dly > LOGO_LEFT and h_cntr_reg_dly < LOGO_RIGHT 
-                              and v_cntr_reg_dly < LOGO_BOTTOM and v_cntr_reg_dly > LOGO_TOP
-               else
-               -- Temperature display
-               xadc_temp_blue_dly when h_cntr_reg_dly > XADC_TEMP_LEFT and h_cntr_reg_dly < XADC_TEMP_RIGHT 
-                                   and v_cntr_reg_dly > XADC_TEMP_TOP and v_cntr_reg_dly < XADC_TEMP_BOTTOM
-               else
-               adt7420_temp_blue_dly when h_cntr_reg_dly > ADT7420_TEMP_LEFT and h_cntr_reg_dly < ADT7420_TEMP_RIGHT 
-                                      and v_cntr_reg_dly > ADT7420_TEMP_TOP and v_cntr_reg_dly < ADT7420_TEMP_BOTTOM
-               else
-               adxl362_temp_blue_dly when h_cntr_reg_dly > ADXL362_TEMP_LEFT and h_cntr_reg_dly < ADXL362_TEMP_RIGHT 
-                                      and v_cntr_reg_dly > ADXL362_TEMP_TOP and v_cntr_reg_dly < ADXL362_TEMP_BOTTOM
-               else
-               -- TBOX display
-     			   tbox_blue when h_cntr_reg_dly > TBOX_LEFT and h_cntr_reg_dly < TBOX_RIGHT 
-                          and v_cntr_reg_dly < TBOX_BOTTOM and v_cntr_reg_dly > TBOX_TOP
-               else
-               --  RGB Led display
-               rgb_b_red_col_dly when (h_cntr_reg_dly > RGB_R_COL_LEFT and h_cntr_reg_dly < RGB_R_COL_RIGHT) 
-                                  and 
-                                     (
-                                      (v_cntr_reg_dly > RGB1_COL_TOP and v_cntr_reg_dly < RGB1_COL_BOTTOM)
-                                      or
-                                      (v_cntr_reg_dly > RGB2_COL_TOP and v_cntr_reg_dly < RGB2_COL_BOTTOM)
-                                     )
-               else
-               rgb_b_green_col_dly when (h_cntr_reg_dly > RGB_G_COL_LEFT and h_cntr_reg_dly < RGB_G_COL_RIGHT) 
-                                    and 
-                                      (
-                                      (v_cntr_reg_dly > RGB1_COL_TOP and v_cntr_reg_dly < RGB1_COL_BOTTOM)
-                                    or
-                                      (v_cntr_reg_dly > RGB2_COL_TOP - 1 and v_cntr_reg_dly < RGB2_COL_BOTTOM)
-                                      )
-               else
-               rgb_b_blue_col_dly when (h_cntr_reg_dly > RGB_B_COL_LEFT and h_cntr_reg_dly < RGB_B_COL_RIGHT) 
-                                    and 
-                                       (
-                                        (v_cntr_reg_dly > RGB1_COL_TOP and v_cntr_reg_dly < RGB1_COL_BOTTOM)
-                                        or
-                                        (v_cntr_reg_dly > RGB2_COL_TOP and v_cntr_reg_dly < RGB2_COL_BOTTOM)
-                                       )
-               else
-               -- LBOX display
-               lbox_blue when h_cntr_reg_dly > LBOX_LEFT and h_cntr_reg_dly < LBOX_RIGHT 
-                          and v_cntr_reg_dly < LBOX_BOTTOM and v_cntr_reg_dly > LBOX_TOP
-               else
-               -- Microphone data display
-               mic_blue_dly when h_cntr_reg_dly > MIC_LEFT and h_cntr_reg_dly < MIC_RIGHT 
-                             and v_cntr_reg_dly > MIC_TOP and v_cntr_reg_dly < MIC_BOTTOM
+  vga_blue <=  -- Fruit display
+               fruit_blue_dly when h_cntr_reg_dly >= fruit_left and h_cntr_reg_dly <= fruit_right 
+                             and v_cntr_reg_dly >= fruit_top and v_cntr_reg_dly <= fruit_bottom
                else
                -- Accelerometer display
-               acl_blue_dly when h_cntr_reg_dly > ACL_LEFT and h_cntr_reg_dly < ACL_RIGHT 
-                             and v_cntr_reg_dly > ACL_TOP and v_cntr_reg_dly < ACL_BOTTOM
+               acl_blue_dly when h_cntr_reg_dly >= ACL_LEFT and h_cntr_reg_dly <= ACL_RIGHT 
+                             and v_cntr_reg_dly >= ACL_TOP and v_cntr_reg_dly <= ACL_BOTTOM
                else
                -- Colorbar will be on the backround
                bg_blue_dly;
@@ -1399,5 +1070,20 @@ end process register_inputs;
   VGA_RED_O    <= vga_red_reg;
   VGA_GREEN_O  <= vga_green_reg;
   VGA_BLUE_O   <= vga_blue_reg;
+  
+  
+    -- Set the limit signals
+    -- Moving box limits
+    fruit_left   <= fruit_x;
+--    fruit_left   <= fruit_x - conv_integer(ACCEL_RADIUS) - 1;
+    fruit_right  <= fruit_x + conv_integer(ACCEL_RADIUS) + conv_integer(ACCEL_RADIUS);
+--    fruit_right  <= fruit_x + conv_integer(ACCEL_RADIUS) + 1;
+    fruit_top	 <= fruit_y;
+--    fruit_top	 <= fruit_y - conv_integer(ACCEL_RADIUS) - 1;
+    fruit_bottom <= fruit_y + conv_integer(ACCEL_RADIUS) + conv_integer(ACCEL_RADIUS);
+--    fruit_bottom <= fruit_y + conv_integer(ACCEL_RADIUS) + 1;
+    
+    colision_trigger <= '1' when ACL_X_IN_REG = "000000000000" else '0';
+    
 
 end Behavioral;

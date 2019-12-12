@@ -1,7 +1,7 @@
 Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2018.3 (win64) Build 2405991 Thu Dec  6 23:38:27 MST 2018
-| Date         : Wed Dec 11 08:47:52 2019
+| Date         : Thu Dec 12 17:13:23 2019
 | Host         : DESKTOP-UMDKHO6 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file main_control_sets_placed.rpt
 | Design       : main
@@ -23,8 +23,8 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Number of unique control sets                            |    25 |
-| Unused register locations in slices containing registers |    91 |
+| Number of unique control sets                            |    33 |
+| Unused register locations in slices containing registers |   112 |
 +----------------------------------------------------------+-------+
 
 
@@ -34,16 +34,18 @@ Table of Contents
 +--------+--------------+
 | Fanout | Control Sets |
 +--------+--------------+
-|      4 |            3 |
-|      5 |            1 |
+|      3 |            1 |
+|      4 |            5 |
+|      5 |            2 |
 |      6 |            1 |
-|      7 |            1 |
+|      7 |            3 |
 |      8 |            3 |
-|      9 |            2 |
+|      9 |            4 |
 |     10 |            1 |
 |     11 |            1 |
 |     12 |            3 |
-|    16+ |            9 |
+|     14 |            1 |
+|    16+ |            8 |
 +--------+--------------+
 
 
@@ -53,46 +55,54 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |             113 |           46 |
+| No           | No                    | No                     |             107 |           37 |
 | No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |             100 |           31 |
-| Yes          | No                    | No                     |             112 |           31 |
+| No           | Yes                   | No                     |             139 |           40 |
+| Yes          | No                    | No                     |             106 |           31 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |             120 |           35 |
+| Yes          | Yes                   | No                     |             136 |           39 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+--------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------------------+------------------+----------------+
-|          Clock Signal          |                                Enable Signal                               |                             Set/Reset Signal                             | Slice Load Count | Bel Load Count |
-+--------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------------------+------------------+----------------+
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg[0]_0                            | Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg[0][6]_i_1_n_0                 |                1 |              4 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/FSM_sequential_StC_Adxl_Ctrl[3]_i_1_n_0 | Inst_AccelerometerCtl/RESET_INT_reg_n_0                                  |                2 |              4 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/E[0]                                    | Inst_AccelerometerCtl/ADXL_Control/Reset_Cnt_Num_Reads                   |                1 |              4 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg[1][6]_i_2_n_0                   | Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg[1]0_in[7]                     |                1 |              5 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg[2]_1                            | Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg[2][7]                         |                2 |              6 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/Shift_Cmd_Reg                           | Inst_AccelerometerCtl/RESET_INT_reg_n_0                                  |                2 |              7 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/SPI_Interface/MOSI_REG[7]_i_1_n_0       |                                                                          |                1 |              8 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/SPI_Interface/SHIFT_TICK_IN             |                                                                          |                2 |              8 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/SPI_Interface/EN_LOAD_DOUT              |                                                                          |                1 |              8 |
-|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerCtl/ADXL_Control/SPI_Interface/SCLK_2X_DIV0            |                2 |              9 |
-|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerCtl/RESET_INT_reg_n_0                                  |                4 |              9 |
-|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerCtl/ADXL_Control/Cnt_SS_Inactive0                      |                4 |             10 |
-|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerCtl/cnt_acc_reset[9]_i_1_n_0                           |                3 |             11 |
-|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_VGA/eqOp55_in                                                       |                3 |             12 |
-|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_VGA/vga_red_reg[3]_i_1_n_0                                          |                7 |             12 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_VGA/eqOp55_in                                                         | Inst_VGA/v_cntr_reg0                                                     |                3 |             12 |
-|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerCtl/ADXL_Control/Reset_Sample_Rate_Div                 |                3 |             17 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerConv/counter[0]_i_1_n_0                                  |                                                                          |                6 |             18 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_VGA/v_sync_reg                                                        |                                                                          |                8 |             18 |
-|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerConv/counter[0]_i_1_n_0                                |                5 |             20 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/Data_Ready                              | Inst_AccelerometerCtl/RESET_INT_reg_n_0                                  |                5 |             22 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/Q[0]                                    | Inst_AccelerometerCtl/RESET_INT_reg_n_0                                  |               10 |             24 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/E[0]                                    | Inst_AccelerometerCtl/ADXL_Control/FSM_sequential_StC_Adxl_Ctrl_reg[3]_0 |                8 |             32 |
-|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/SPI_Interface/Shift_Data_Reg            |                                                                          |               13 |             58 |
-|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            |                                                                          |               46 |            113 |
-+--------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------------------+------------------+----------------+
++--------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------------+------------------+----------------+
+|          Clock Signal          |                                Enable Signal                               |                             Set/Reset Signal                            | Slice Load Count | Bel Load Count |
++--------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------------+------------------+----------------+
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerConv/x_pos                                               | Inst_AccelerometerConv/x_pos[11]_i_1_n_0                                |                2 |              3 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg[0]_3                            | Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg[0][6]_i_1_n_0                |                1 |              4 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/FSM_sequential_StC_Adxl_Ctrl_reg[3]_0   | Inst_AccelerometerCtl/ADXL_Control/Reset_Cnt_Num_Reads                  |                1 |              4 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/FSM_sequential_StC_Adxl_Ctrl[3]_i_1_n_0 | Inst_AccelerometerCtl/RESET_INT_reg_n_0                                 |                3 |              4 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerConv/y_pos[10]_i_2_n_0                                   | Inst_AccelerometerConv/y_pos[10]_i_1_n_0                                |                1 |              4 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerConv/y_pos                                               | Inst_AccelerometerConv/y_pos[11]_i_1_n_0                                |                2 |              4 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg[1][6]_i_2_n_0                   | Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg[1]0_in[7]                    |                1 |              5 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerConv/x_pos[9]_i_2_n_0                                    | Inst_AccelerometerConv/x_pos[9]_i_1_n_0                                 |                1 |              5 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg[2]_2                            | Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg[2]_4[7]                      |                1 |              6 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_FruitCtl/clear                                                     |                2 |              7 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_FruitCtl/counter_x[5]_i_1_n_0                                      |                2 |              7 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/D_Send[6]_i_1_n_0                       | Inst_AccelerometerCtl/RESET_INT_reg_n_0                                 |                1 |              7 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/SPI_Interface/SHIFT_TICK_IN             |                                                                         |                2 |              8 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/SPI_Interface/MOSI_REG[7]_i_1_n_0       |                                                                         |                2 |              8 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/SPI_Interface/EN_LOAD_DOUT              |                                                                         |                2 |              8 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerCtl/ADXL_Control/SPI_Interface/SCLK_2X_DIV[8]_i_1_n_0 |                3 |              9 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerCtl/Accel_Calculation/ACCEL_X_CLIP[7]                 |                3 |              9 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP[7]                 |                3 |              9 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerCtl/RESET_INT_reg_n_0                                 |                5 |              9 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerCtl/ADXL_Control/Cnt_SS_Inactive0                     |                3 |             10 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerCtl/cnt_acc_reset[9]_i_1_n_0                          |                3 |             11 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_VGA/eqOp12_in                                                      |                3 |             12 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_VGA/vga_red_reg[3]_i_1_n_0                                         |                2 |             12 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_VGA/eqOp12_in                                                         | Inst_VGA/v_cntr_reg0                                                    |                3 |             12 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_VGA/E[0]                                                              |                                                                         |                5 |             14 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_VGA/v_sync_reg                                                        |                                                                         |                6 |             16 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerCtl/ADXL_Control/Reset_Sample_Rate_Div                |                4 |             17 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/Data_Ready                              | Inst_AccelerometerCtl/RESET_INT_reg_n_0                                 |                6 |             22 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/Q[0]                                    | Inst_AccelerometerCtl/RESET_INT_reg_n_0                                 |                8 |             24 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            | Inst_AccelerometerConv/counter[0]_i_1_n_0                               |                7 |             27 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/FSM_sequential_StC_Adxl_Ctrl_reg[3]_0   | Inst_AccelerometerCtl/ADXL_Control/RESET_INT_reg                        |                8 |             32 |
+|  Inst_ClkGen/inst/clk_100MHz_o | Inst_AccelerometerCtl/ADXL_Control/SPI_Interface/Done_reg_0                |                                                                         |               14 |             58 |
+|  Inst_ClkGen/inst/clk_100MHz_o |                                                                            |                                                                         |               37 |            107 |
++--------------------------------+----------------------------------------------------------------------------+-------------------------------------------------------------------------+------------------+----------------+
 
 

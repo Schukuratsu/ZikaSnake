@@ -17,12 +17,12 @@ Please select 'Report IP Status' from the 'Tools/Report' menu or run Tcl command
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t'
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 6980 
+INFO: Helper process launched with PID 8200 
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 489.785 ; gain = 100.938
+Starting RTL Elaboration : Time (s): cpu = 00:00:12 ; elapsed = 00:00:15 . Memory (MB): peak = 489.719 ; gain = 100.941
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-638] synthesizing module 'main' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:69]
-INFO: [Synth 8-3491] module 'ClkGen' declared at 'c:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/ip/ClkGen/ClkGen.v:71' bound to instance 'Inst_ClkGen' of component 'ClkGen' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:214]
+INFO: [Synth 8-3491] module 'ClkGen' declared at 'c:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/ip/ClkGen/ClkGen.v:71' bound to instance 'Inst_ClkGen' of component 'ClkGen' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:235]
 INFO: [Synth 8-6157] synthesizing module 'ClkGen' [c:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/ip/ClkGen/ClkGen.v:71]
 INFO: [Synth 8-6157] synthesizing module 'ClkGen_clk_wiz' [c:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/ip/ClkGen/ClkGen_clk_wiz.v:69]
 INFO: [Synth 8-6157] synthesizing module 'IBUF' [C:/Xilinx/Vivado/2018.3/scripts/rt/data/unisim_comp.v:20408]
@@ -90,7 +90,7 @@ INFO: [Synth 8-6155] done synthesizing module 'ClkGen' (5#1) [c:/Users/lucas/chi
 	Parameter SCLK_FREQUENCY_HZ bound to: 100000 - type: integer 
 	Parameter NUM_READS_AVG bound to: 16 - type: integer 
 	Parameter UPDATE_FREQUENCY_HZ bound to: 1000 - type: integer 
-INFO: [Synth 8-3491] module 'AccelerometerCtl' declared at 'C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelerometerCtl.vhd:42' bound to instance 'Inst_AccelerometerCtl' of component 'AccelerometerCtl' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:226]
+INFO: [Synth 8-3491] module 'AccelerometerCtl' declared at 'C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelerometerCtl.vhd:42' bound to instance 'Inst_AccelerometerCtl' of component 'AccelerometerCtl' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:247]
 INFO: [Synth 8-638] synthesizing module 'AccelerometerCtl' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelerometerCtl.vhd:70]
 	Parameter SYSCLK_FREQUENCY_HZ bound to: 100000000 - type: integer 
 	Parameter SCLK_FREQUENCY_HZ bound to: 100000 - type: integer 
@@ -162,9 +162,12 @@ INFO: [Synth 8-3491] module 'cordic_v6_0_14' declared at 'c:/Users/lucas/chilinq
 INFO: [Synth 8-256] done synthesizing module 'Square_Root' (21#1) [c:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/ip/Square_Root/synth/Square_Root.vhd:69]
 INFO: [Synth 8-256] done synthesizing module 'AccelArithmetics' (22#1) [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelArithmetics.vhd:74]
 INFO: [Synth 8-256] done synthesizing module 'AccelerometerCtl' (23#1) [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelerometerCtl.vhd:70]
-INFO: [Synth 8-3491] module 'AccelerometerConverter' declared at 'C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/AccelerometerConverter.vhd:36' bound to instance 'Inst_AccelerometerConv' of component 'AccelerometerConverter' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:254]
+INFO: [Synth 8-3491] module 'AccelerometerConverter' declared at 'C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/AccelerometerConverter.vhd:36' bound to instance 'Inst_AccelerometerConv' of component 'AccelerometerConverter' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:275]
 INFO: [Synth 8-638] synthesizing module 'AccelerometerConverter' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/AccelerometerConverter.vhd:54]
 INFO: [Synth 8-256] done synthesizing module 'AccelerometerConverter' (24#1) [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/AccelerometerConverter.vhd:54]
+INFO: [Synth 8-3491] module 'FruitCtl' declared at 'C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/FruitCtl.vhd:35' bound to instance 'Inst_FruitCtl' of component 'FruitCtl' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:292]
+INFO: [Synth 8-638] synthesizing module 'FruitCtl' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/FruitCtl.vhd:47]
+INFO: [Synth 8-256] done synthesizing module 'FruitCtl' (25#1) [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/FruitCtl.vhd:47]
 WARNING: [Synth 8-5640] Port 'rgb_led_red' is missing in component declaration [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:81]
 WARNING: [Synth 8-5640] Port 'rgb_led_green' is missing in component declaration [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:81]
 WARNING: [Synth 8-5640] Port 'rgb_led_blue' is missing in component declaration [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:81]
@@ -175,66 +178,70 @@ WARNING: [Synth 8-5640] Port 'mouse_y_pos' is missing in component declaration [
 WARNING: [Synth 8-5640] Port 'xadc_temp_value_i' is missing in component declaration [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:81]
 WARNING: [Synth 8-5640] Port 'adt7420_temp_value_i' is missing in component declaration [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:81]
 WARNING: [Synth 8-5640] Port 'adxl362_temp_value_i' is missing in component declaration [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:81]
-INFO: [Synth 8-3491] module 'Vga' declared at 'C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:69' bound to instance 'Inst_VGA' of component 'Vga' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-INFO: [Synth 8-638] synthesizing module 'Vga' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:101]
-	Parameter X_XY_WIDTH bound to: 1000 - type: integer 
-	Parameter X_MAG_WIDTH bound to: 45 - type: integer 
-	Parameter Y_HEIGHT bound to: 900 - type: integer 
-	Parameter X_START bound to: 50 - type: integer 
-	Parameter Y_START bound to: 50 - type: integer 
+INFO: [Synth 8-3491] module 'Vga' declared at 'C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:69' bound to instance 'Inst_VGA' of component 'Vga' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:308]
+INFO: [Synth 8-638] synthesizing module 'Vga' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:105]
+	Parameter X_XY_WIDTH bound to: 1280 - type: integer 
+	Parameter X_MAG_WIDTH bound to: 0 - type: integer 
+	Parameter Y_HEIGHT bound to: 1024 - type: integer 
+	Parameter X_START bound to: 0 - type: integer 
+	Parameter Y_START bound to: 0 - type: integer 
 	Parameter BG_COLOR bound to: 12'b111111111111 
 	Parameter ACTIVE_COLOR bound to: 12'b000011110000 
 	Parameter WARNING_COLOR bound to: 12'b111100000000 
-INFO: [Synth 8-3491] module 'AccelDisplay' declared at 'C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelDisplay.vhd:38' bound to instance 'Inst_AccelDisplay' of component 'AccelDisplay' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:1001]
+INFO: [Synth 8-3491] module 'AccelDisplay' declared at 'C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelDisplay.vhd:38' bound to instance 'Inst_AccelDisplay' of component 'AccelDisplay' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:865]
 INFO: [Synth 8-638] synthesizing module 'AccelDisplay' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelDisplay.vhd:67]
-	Parameter X_XY_WIDTH bound to: 1000 - type: integer 
-	Parameter X_MAG_WIDTH bound to: 45 - type: integer 
-	Parameter Y_HEIGHT bound to: 900 - type: integer 
-	Parameter X_START bound to: 50 - type: integer 
-	Parameter Y_START bound to: 50 - type: integer 
+	Parameter X_XY_WIDTH bound to: 1280 - type: integer 
+	Parameter X_MAG_WIDTH bound to: 0 - type: integer 
+	Parameter Y_HEIGHT bound to: 1024 - type: integer 
+	Parameter X_START bound to: 0 - type: integer 
+	Parameter Y_START bound to: 0 - type: integer 
 	Parameter BG_COLOR bound to: 12'b111111111111 
 	Parameter ACTIVE_COLOR bound to: 12'b000011110000 
 	Parameter WARNING_COLOR bound to: 12'b111100000000 
-INFO: [Synth 8-256] done synthesizing module 'AccelDisplay' (25#1) [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelDisplay.vhd:67]
-WARNING: [Synth 8-6014] Unused sequential element XADC_TEMP_VALUE_I_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:818]
-WARNING: [Synth 8-6014] Unused sequential element ADT7420_TEMP_VALUE_I_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:819]
-WARNING: [Synth 8-6014] Unused sequential element ADXL362_TEMP_VALUE_I_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:820]
-WARNING: [Synth 8-6014] Unused sequential element MOUSE_X_POS_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:829]
-WARNING: [Synth 8-6014] Unused sequential element MOUSE_Y_POS_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:830]
-WARNING: [Synth 8-6014] Unused sequential element MOUSE_LEFT_BUTTON_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:831]
-WARNING: [Synth 8-6014] Unused sequential element MIC_M_DATA_I_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:834]
-INFO: [Synth 8-4471] merging register 'mouse_cursor_blue_dly_reg[3:0]' into 'mouse_cursor_red_dly_reg[3:0]' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:1149]
-INFO: [Synth 8-4471] merging register 'mouse_cursor_green_dly_reg[3:0]' into 'mouse_cursor_red_dly_reg[3:0]' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:1150]
-WARNING: [Synth 8-6014] Unused sequential element mouse_cursor_blue_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:1149]
-WARNING: [Synth 8-6014] Unused sequential element mouse_cursor_green_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:1150]
-WARNING: [Synth 8-3848] Net logo_red in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:599]
-WARNING: [Synth 8-3848] Net xadc_temp_red in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:604]
-WARNING: [Synth 8-3848] Net adt7420_temp_red in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:609]
-WARNING: [Synth 8-3848] Net adxl362_temp_red in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:614]
-WARNING: [Synth 8-3848] Net rgb_r_red_col in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:629]
-WARNING: [Synth 8-3848] Net rgb_r_green_col in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:633]
-WARNING: [Synth 8-3848] Net rgb_r_blue_col in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:637]
-WARNING: [Synth 8-3848] Net mic_red in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:624]
-WARNING: [Synth 8-3848] Net overlay_en in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:659]
-WARNING: [Synth 8-3848] Net enable_mouse_display in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:656]
-WARNING: [Synth 8-3848] Net logo_green in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:601]
-WARNING: [Synth 8-3848] Net xadc_temp_green in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:605]
-WARNING: [Synth 8-3848] Net adt7420_temp_green in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:610]
-WARNING: [Synth 8-3848] Net adxl362_temp_green in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:615]
-WARNING: [Synth 8-3848] Net rgb_g_red_col in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:630]
-WARNING: [Synth 8-3848] Net rgb_g_green_col in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:634]
-WARNING: [Synth 8-3848] Net rgb_g_blue_col in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:638]
-WARNING: [Synth 8-3848] Net mic_green in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:626]
-WARNING: [Synth 8-3848] Net logo_blue in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:600]
-WARNING: [Synth 8-3848] Net xadc_temp_blue in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:606]
-WARNING: [Synth 8-3848] Net adt7420_temp_blue in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:611]
-WARNING: [Synth 8-3848] Net adxl362_temp_blue in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:616]
-WARNING: [Synth 8-3848] Net rgb_b_red_col in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:631]
-WARNING: [Synth 8-3848] Net rgb_b_green_col in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:635]
-WARNING: [Synth 8-3848] Net rgb_b_blue_col in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:639]
-WARNING: [Synth 8-3848] Net mic_blue in module/entity Vga does not have driver. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:625]
-INFO: [Synth 8-256] done synthesizing module 'Vga' (26#1) [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:101]
-INFO: [Synth 8-256] done synthesizing module 'main' (27#1) [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:69]
+INFO: [Synth 8-256] done synthesizing module 'AccelDisplay' (26#1) [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelDisplay.vhd:67]
+WARNING: [Synth 8-6014] Unused sequential element RGB_LED_RED_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:831]
+WARNING: [Synth 8-6014] Unused sequential element RGB_LED_GREEN_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:832]
+WARNING: [Synth 8-6014] Unused sequential element RGB_LED_BLUE_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:833]
+WARNING: [Synth 8-6014] Unused sequential element XADC_TEMP_VALUE_I_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:835]
+WARNING: [Synth 8-6014] Unused sequential element ADT7420_TEMP_VALUE_I_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:836]
+WARNING: [Synth 8-6014] Unused sequential element ADXL362_TEMP_VALUE_I_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:837]
+WARNING: [Synth 8-6014] Unused sequential element fruit_x_reg_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:846]
+WARNING: [Synth 8-6014] Unused sequential element fruit_y_reg_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:847]
+WARNING: [Synth 8-6014] Unused sequential element MOUSE_X_POS_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:850]
+WARNING: [Synth 8-6014] Unused sequential element MOUSE_Y_POS_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:851]
+WARNING: [Synth 8-6014] Unused sequential element MOUSE_LEFT_BUTTON_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:852]
+WARNING: [Synth 8-6014] Unused sequential element MIC_M_DATA_I_REG_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:855]
+WARNING: [Synth 8-6014] Unused sequential element logo_red_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:938]
+WARNING: [Synth 8-6014] Unused sequential element logo_green_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:939]
+WARNING: [Synth 8-6014] Unused sequential element logo_blue_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:940]
+WARNING: [Synth 8-6014] Unused sequential element xadc_temp_red_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:942]
+WARNING: [Synth 8-6014] Unused sequential element xadc_temp_green_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:943]
+WARNING: [Synth 8-6014] Unused sequential element xadc_temp_blue_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:944]
+WARNING: [Synth 8-6014] Unused sequential element adt7420_temp_red_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:946]
+WARNING: [Synth 8-6014] Unused sequential element adt7420_temp_green_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:947]
+WARNING: [Synth 8-6014] Unused sequential element adt7420_temp_blue_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:948]
+WARNING: [Synth 8-6014] Unused sequential element adxl362_temp_red_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:950]
+WARNING: [Synth 8-6014] Unused sequential element adxl362_temp_green_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:951]
+WARNING: [Synth 8-6014] Unused sequential element adxl362_temp_blue_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:952]
+WARNING: [Synth 8-6014] Unused sequential element rgb_r_red_col_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:954]
+WARNING: [Synth 8-6014] Unused sequential element rgb_g_red_col_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:955]
+WARNING: [Synth 8-6014] Unused sequential element rgb_b_red_col_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:956]
+WARNING: [Synth 8-6014] Unused sequential element rgb_r_green_col_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:958]
+WARNING: [Synth 8-6014] Unused sequential element rgb_g_green_col_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:959]
+WARNING: [Synth 8-6014] Unused sequential element rgb_b_green_col_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:960]
+WARNING: [Synth 8-6014] Unused sequential element rgb_r_blue_col_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:962]
+WARNING: [Synth 8-6014] Unused sequential element rgb_g_blue_col_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:963]
+WARNING: [Synth 8-6014] Unused sequential element rgb_b_blue_col_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:964]
+WARNING: [Synth 8-6014] Unused sequential element mic_red_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:966]
+WARNING: [Synth 8-6014] Unused sequential element mic_green_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:967]
+WARNING: [Synth 8-6014] Unused sequential element mic_blue_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:968]
+WARNING: [Synth 8-6014] Unused sequential element mouse_cursor_red_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:978]
+WARNING: [Synth 8-6014] Unused sequential element mouse_cursor_blue_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:979]
+WARNING: [Synth 8-6014] Unused sequential element mouse_cursor_green_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:980]
+WARNING: [Synth 8-6014] Unused sequential element enable_mouse_display_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:982]
+WARNING: [Synth 8-6014] Unused sequential element overlay_en_dly_reg was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:984]
+INFO: [Synth 8-256] done synthesizing module 'Vga' (27#1) [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:105]
+INFO: [Synth 8-256] done synthesizing module 'main' (28#1) [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:69]
 WARNING: [Synth 8-3331] design AccelDisplay has unconnected port ACCEL_MAG_I[8]
 WARNING: [Synth 8-3331] design AccelDisplay has unconnected port ACCEL_MAG_I[7]
 WARNING: [Synth 8-3331] design AccelDisplay has unconnected port ACCEL_MAG_I[6]
@@ -244,15 +251,42 @@ WARNING: [Synth 8-3331] design AccelDisplay has unconnected port ACCEL_MAG_I[3]
 WARNING: [Synth 8-3331] design AccelDisplay has unconnected port ACCEL_MAG_I[2]
 WARNING: [Synth 8-3331] design AccelDisplay has unconnected port ACCEL_MAG_I[1]
 WARNING: [Synth 8-3331] design AccelDisplay has unconnected port ACCEL_MAG_I[0]
+WARNING: [Synth 8-3331] design AccelDisplay has unconnected port LEVEL_THRESH[11]
+WARNING: [Synth 8-3331] design AccelDisplay has unconnected port LEVEL_THRESH[10]
+WARNING: [Synth 8-3331] design AccelDisplay has unconnected port LEVEL_THRESH[9]
+WARNING: [Synth 8-3331] design AccelDisplay has unconnected port LEVEL_THRESH[8]
+WARNING: [Synth 8-3331] design AccelDisplay has unconnected port LEVEL_THRESH[7]
+WARNING: [Synth 8-3331] design AccelDisplay has unconnected port LEVEL_THRESH[6]
+WARNING: [Synth 8-3331] design AccelDisplay has unconnected port LEVEL_THRESH[5]
+WARNING: [Synth 8-3331] design AccelDisplay has unconnected port LEVEL_THRESH[4]
+WARNING: [Synth 8-3331] design AccelDisplay has unconnected port LEVEL_THRESH[3]
+WARNING: [Synth 8-3331] design AccelDisplay has unconnected port LEVEL_THRESH[2]
+WARNING: [Synth 8-3331] design AccelDisplay has unconnected port LEVEL_THRESH[1]
+WARNING: [Synth 8-3331] design AccelDisplay has unconnected port LEVEL_THRESH[0]
 WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_RED[7]
 WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_RED[6]
 WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_RED[5]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_RED[4]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_RED[3]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_RED[2]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_RED[1]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_RED[0]
 WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_GREEN[7]
 WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_GREEN[6]
 WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_GREEN[5]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_GREEN[4]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_GREEN[3]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_GREEN[2]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_GREEN[1]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_GREEN[0]
 WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_BLUE[7]
 WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_BLUE[6]
 WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_BLUE[5]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_BLUE[4]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_BLUE[3]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_BLUE[2]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_BLUE[1]
+WARNING: [Synth 8-3331] design Vga has unconnected port RGB_LED_BLUE[0]
 WARNING: [Synth 8-3331] design Vga has unconnected port MIC_M_DATA_I
 WARNING: [Synth 8-3331] design Vga has unconnected port MIC_M_CLK_RISING
 WARNING: [Synth 8-3331] design Vga has unconnected port MOUSE_X_POS[11]
@@ -308,36 +342,9 @@ WARNING: [Synth 8-3331] design Vga has unconnected port ADXL362_TEMP_VALUE_I[11]
 WARNING: [Synth 8-3331] design Vga has unconnected port ADXL362_TEMP_VALUE_I[10]
 WARNING: [Synth 8-3331] design Vga has unconnected port ADXL362_TEMP_VALUE_I[9]
 WARNING: [Synth 8-3331] design Vga has unconnected port ADXL362_TEMP_VALUE_I[8]
-WARNING: [Synth 8-3331] design Vga has unconnected port ADXL362_TEMP_VALUE_I[7]
-WARNING: [Synth 8-3331] design Vga has unconnected port ADXL362_TEMP_VALUE_I[6]
-WARNING: [Synth 8-3331] design Vga has unconnected port ADXL362_TEMP_VALUE_I[5]
-WARNING: [Synth 8-3331] design Vga has unconnected port ADXL362_TEMP_VALUE_I[4]
-WARNING: [Synth 8-3331] design Vga has unconnected port ADXL362_TEMP_VALUE_I[3]
-WARNING: [Synth 8-3331] design Vga has unconnected port ADXL362_TEMP_VALUE_I[2]
-WARNING: [Synth 8-3331] design Vga has unconnected port ADXL362_TEMP_VALUE_I[1]
-WARNING: [Synth 8-3331] design Vga has unconnected port ADXL362_TEMP_VALUE_I[0]
-WARNING: [Synth 8-3331] design delay__parameterized47 has unconnected port SCLR
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_lut6_legacy__parameterized21 has unconnected port clk
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_lut6_legacy__parameterized21 has unconnected port add
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_lut6_legacy__parameterized21 has unconnected port c_in
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_lut6_legacy__parameterized21 has unconnected port ce
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_lut6_legacy__parameterized21 has unconnected port bypass
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_lut6_legacy__parameterized21 has unconnected port aclr
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_lut6_legacy__parameterized21 has unconnected port aset
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_lut6_legacy__parameterized21 has unconnected port ainit
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_lut6_legacy__parameterized21 has unconnected port sclr
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_lut6_legacy__parameterized21 has unconnected port sset
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_lut6_legacy__parameterized21 has unconnected port sinit
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_legacy__parameterized21 has unconnected port c_in
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_legacy__parameterized21 has unconnected port b_in
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_legacy__parameterized21 has unconnected port a_signed
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_legacy__parameterized21 has unconnected port b_signed
-WARNING: [Synth 8-3331] design c_addsub_v12_0_12_viv__parameterized21 has unconnected port C_IN
-WARNING: [Synth 8-3331] design cordic_sqrt_mod__parameterized21 has unconnected port rem_out[14]
-WARNING: [Synth 8-3331] design cordic_sqrt_mod__parameterized21 has unconnected port rem_out[13]
 INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:28 ; elapsed = 00:00:30 . Memory (MB): peak = 669.773 ; gain = 280.926
+Finished RTL Elaboration : Time (s): cpu = 00:00:49 ; elapsed = 00:00:59 . Memory (MB): peak = 670.066 ; gain = 281.289
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -346,29 +353,14 @@ Report Check Netlist:
 +------+------------------+-------+---------+-------+------------------+
 |1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
 +------+------------------+-------+---------+-------+------------------+
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_RED[4] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_RED[3] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_RED[2] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_RED[1] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_RED[0] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_GREEN[4] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_GREEN[3] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_GREEN[2] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_GREEN[1] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_GREEN[0] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_BLUE[4] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_BLUE[3] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_BLUE[2] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_BLUE[1] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
-WARNING: [Synth 8-3295] tying undriven pin Inst_VGA:RGB_LED_BLUE[0] to constant 0 [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd:271]
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:29 ; elapsed = 00:00:31 . Memory (MB): peak = 669.773 ; gain = 280.926
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:50 ; elapsed = 00:01:00 . Memory (MB): peak = 670.066 ; gain = 281.289
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:29 ; elapsed = 00:00:31 . Memory (MB): peak = 669.773 ; gain = 280.926
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:50 ; elapsed = 00:01:00 . Memory (MB): peak = 670.066 ; gain = 281.289
 ---------------------------------------------------------------------------------
 INFO: [Netlist 29-17] Analyzing 289 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -384,7 +376,7 @@ Finished Parsing XDC File [c:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/so
 INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [c:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/ip/ClkGen/ClkGen.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/main_propImpl.xdc].
 Resolution: To avoid this warning, move constraints listed in [.Xil/main_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 INFO: [Timing 38-2] Deriving generated clocks
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 916.020 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.010 . Memory (MB): peak = 914.336 ; gain = 0.000
 Parsing XDC File [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/constrs_1/imports/constraints/Nexys4DDR_C.xdc]
 WARNING: [Vivado 12-508] No pins matched 'Inst_Audio/DDR/rstn_reg/C'. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/constrs_1/imports/constraints/Nexys4DDR_C.xdc:258]
 WARNING: [Vivado 12-508] No pins matched 'Inst_Audio/DDR/Inst_DDR/u_ddr_mig/u_ddr2_infrastructure/rstdiv0_sync_r*/PRE'. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/constrs_1/imports/constraints/Nexys4DDR_C.xdc:258]
@@ -398,24 +390,24 @@ Finished Parsing XDC File [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.runs/sy
 INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.runs/synth_1/dont_touch.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/main_propImpl.xdc].
 Resolution: To avoid this warning, move constraints listed in [.Xil/main_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 INFO: [Timing 38-2] Deriving generated clocks
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 919.809 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.008 . Memory (MB): peak = 918.203 ; gain = 0.000
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 919.809 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 918.203 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 919.809 ; gain = 0.000
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.029 . Memory (MB): peak = 919.809 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.008 . Memory (MB): peak = 918.203 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.043 . Memory (MB): peak = 918.203 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:41 ; elapsed = 00:00:44 . Memory (MB): peak = 919.809 ; gain = 530.961
+Finished Constraint Validation : Time (s): cpu = 00:01:11 ; elapsed = 00:01:25 . Memory (MB): peak = 918.203 ; gain = 529.426
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a100tcsg324-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:41 ; elapsed = 00:00:44 . Memory (MB): peak = 919.809 ; gain = 530.961
+Finished Loading Part and Timing Information : Time (s): cpu = 00:01:11 ; elapsed = 00:01:25 . Memory (MB): peak = 918.203 ; gain = 529.426
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
@@ -424,7 +416,7 @@ Applied set_property DONT_TOUCH = true for Inst_ClkGen/inst. (constraint file  C
 Applied set_property DONT_TOUCH = true for Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation. (constraint file  auto generated constraint, line ).
 Applied set_property DONT_TOUCH = true for Inst_ClkGen. (constraint file  auto generated constraint, line ).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:41 ; elapsed = 00:00:44 . Memory (MB): peak = 919.809 ; gain = 530.961
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:11 ; elapsed = 00:01:25 . Memory (MB): peak = 918.203 ; gain = 529.426
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'StC_reg' in module 'SPI_If'
 INFO: [Synth 8-5546] ROM "SCLK_2X_TICK" won't be mapped to RAM because it is too sparse
@@ -458,9 +450,12 @@ INFO: [Synth 8-5544] ROM "Cmd_Reg[1]" won't be mapped to Block RAM because addre
 INFO: [Synth 8-5544] ROM "Cmd_Reg[2]" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
 INFO: [Synth 8-5544] ROM "Cnt_Bytes_Sent" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
 INFO: [Synth 8-5546] ROM "RESET_INT" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5818] HDL ADVISOR - The operator resource <adder> is shared. To prevent sharing consider applying a KEEP on the output of the operator [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/AccelerometerConverter.vhd:88]
-INFO: [Synth 8-5818] HDL ADVISOR - The operator resource <adder> is shared. To prevent sharing consider applying a KEEP on the output of the operator [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/AccelerometerConverter.vhd:93]
-WARNING: [Synth 8-3936] Found unconnected internal register 'ACL_MAG_IN_REG_reg' and it is trimmed from '12' to '9' bits. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:826]
+INFO: [Synth 8-5544] ROM "direction" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "x_pos" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "x_pos" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "y_pos" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "y_pos" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
+WARNING: [Synth 8-3936] Found unconnected internal register 'ACL_MAG_IN_REG_reg' and it is trimmed from '12' to '9' bits. [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd:843]
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
@@ -507,7 +502,7 @@ stadxlwaitsampleratetick |                             0100 |                   
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'StC_Adxl_Ctrl_reg' using encoding 'sequential' in module 'ADXL362Ctrl'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:44 ; elapsed = 00:00:47 . Memory (MB): peak = 919.809 ; gain = 530.961
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:15 ; elapsed = 00:01:31 . Memory (MB): peak = 918.203 ; gain = 529.426
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -540,13 +535,13 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 Warning: Parallel synthesis criteria is not met 
-INFO: [Synth 8-4471] merging register 'Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg_Data_Addr_reg[1:0]' into 'Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg_Data_Addr_reg[1:0]' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/ADXL362Ctrl.vhd:451]
-INFO: [Synth 8-5544] ROM "Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg_Addr_Done" won't be mapped to Block RAM because address size (2) smaller than threshold (5)
-INFO: [Synth 8-5544] ROM "Inst_AccelerometerCtl/ADXL_Control/Cnt_Num_Reads_Done" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
-INFO: [Synth 8-5546] ROM "Inst_AccelerometerCtl/ADXL_Control/SPI_Interface/SCLK_2X_TICK" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "Inst_AccelerometerCtl/ADXL_Control/Sample_Rate_Tick" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "Inst_AccelerometerCtl/ADXL_Control/Cnt_SS_Inactive_done" won't be mapped to RAM because it is too sparse
-INFO: [Synth 8-5546] ROM "Inst_AccelerometerCtl/RESET_INT" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-4471] merging register 'ADXL_Control/Cmd_Reg_Data_Addr_reg[1:0]' into 'ADXL_Control/Cmd_Reg_Data_Addr_reg[1:0]' [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/ADXL362Ctrl.vhd:451]
+INFO: [Synth 8-5544] ROM "ADXL_Control/Cmd_Reg_Addr_Done" won't be mapped to Block RAM because address size (2) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "ADXL_Control/Cnt_Num_Reads_Done" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5546] ROM "ADXL_Control/SPI_Interface/SCLK_2X_TICK" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "ADXL_Control/Sample_Rate_Tick" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "ADXL_Control/Cnt_SS_Inactive_done" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "RESET_INT" won't be mapped to RAM because it is too sparse
 WARNING: [Synth 8-6014] Unused sequential element  was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/ADXL362Ctrl.vhd:806]
 WARNING: [Synth 8-6014] Unused sequential element  was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/ADXL362Ctrl.vhd:807]
 WARNING: [Synth 8-6014] Unused sequential element  was removed.  [C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/ADXL362Ctrl.vhd:805]
@@ -554,52 +549,74 @@ INFO: [Synth 8-3886] merging instance 'Inst_AccelerometerCtl/ADXL_Control/Cmd_Re
 INFO: [Synth 8-3886] merging instance 'Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg_reg[0][3]' (FDRE) to 'Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg_reg[0][5]'
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg_reg[0][5] )
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_AccelerometerCtl/ADXL_Control/Cmd_Reg_reg[1][7] )
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/LEVEL_THRESH_REG_reg[0]' (FDE) to 'Inst_VGA/LEVEL_THRESH_REG_reg[1]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/LEVEL_THRESH_REG_reg[1]' (FDE) to 'Inst_VGA/LEVEL_THRESH_REG_reg[2]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/LEVEL_THRESH_REG_reg[2]' (FDE) to 'Inst_VGA/LEVEL_THRESH_REG_reg[3]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/LEVEL_THRESH_REG_reg[3]' (FDE) to 'Inst_VGA/LEVEL_THRESH_REG_reg[4]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/LEVEL_THRESH_REG_reg[4]' (FDE) to 'Inst_VGA/LEVEL_THRESH_REG_reg[6]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/LEVEL_THRESH_REG_reg[5]' (FDE) to 'Inst_VGA/ACCEL_RADIUS_REG_reg[0]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/LEVEL_THRESH_REG_reg[6]' (FDE) to 'Inst_VGA/LEVEL_THRESH_REG_reg[7]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/LEVEL_THRESH_REG_reg[7]' (FDE) to 'Inst_VGA/LEVEL_THRESH_REG_reg[8]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/LEVEL_THRESH_REG_reg[8]' (FDE) to 'Inst_VGA/LEVEL_THRESH_REG_reg[9]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/LEVEL_THRESH_REG_reg[9]' (FDE) to 'Inst_VGA/LEVEL_THRESH_REG_reg[10]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/LEVEL_THRESH_REG_reg[10]' (FDE) to 'Inst_VGA/LEVEL_THRESH_REG_reg[11]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/LEVEL_THRESH_REG_reg[11]' (FDE) to 'Inst_VGA/ACCEL_RADIUS_REG_reg[3]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[0]' (FDE) to 'Inst_VGA/ACCEL_RADIUS_REG_reg[1]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[1]' (FDE) to 'Inst_VGA/ACCEL_RADIUS_REG_reg[2]'
-INFO: [Synth 8-3333] propagating constant 1 across sequential element (\Inst_VGA/ACCEL_RADIUS_REG_reg[2] )
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[3]' (FDE) to 'Inst_VGA/ACCEL_RADIUS_REG_reg[4]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[4]' (FDE) to 'Inst_VGA/ACCEL_RADIUS_REG_reg[5]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[5]' (FDE) to 'Inst_VGA/ACCEL_RADIUS_REG_reg[6]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[6]' (FDE) to 'Inst_VGA/ACCEL_RADIUS_REG_reg[7]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[7]' (FDE) to 'Inst_VGA/ACCEL_RADIUS_REG_reg[8]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[8]' (FDE) to 'Inst_VGA/ACCEL_RADIUS_REG_reg[9]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[9]' (FDE) to 'Inst_VGA/ACCEL_RADIUS_REG_reg[10]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[10]' (FDE) to 'Inst_VGA/ACCEL_RADIUS_REG_reg[11]'
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_VGA/ACCEL_RADIUS_REG_reg[11] )
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[4]' (FD) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[5]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[5]' (FD) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[6]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[6]' (FD) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[7]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[0]' (FD) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[1]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[1]' (FD) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[2]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[2]' (FD) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[3]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[8]' (FD) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[9]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[9]' (FD) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[10]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[10]' (FD) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[11]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_green_dly_reg[0]' (FD) to 'Inst_VGA/acl_green_dly_reg[2]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_green_dly_reg[1]' (FD) to 'Inst_VGA/acl_green_dly_reg[2]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_green_dly_reg[2]' (FD) to 'Inst_VGA/acl_green_dly_reg[3]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_blue_dly_reg[0]' (FD) to 'Inst_VGA/acl_blue_dly_reg[2]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_blue_dly_reg[1]' (FD) to 'Inst_VGA/acl_blue_dly_reg[2]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_blue_dly_reg[2]' (FD) to 'Inst_VGA/acl_blue_dly_reg[3]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_89/\Inst_FruitCtl/counter_x_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_88/\Inst_FruitCtl/counter_y_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_AccelerometerConv/y_pos_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_AccelerometerConv/y_pos_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_AccelerometerConv/y_pos_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_AccelerometerConv/x_pos_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_AccelerometerConv/x_pos_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_AccelerometerConv/x_pos_reg[2] )
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACL_Y_IN_REG_reg[0]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[0]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACL_Y_IN_REG_reg[1]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[1]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACL_Y_IN_REG_reg[2]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[2]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[3]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\Inst_VGA/ACCEL_RADIUS_REG_reg[4] )
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[5]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[6]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[7]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[8]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[9]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[10]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACCEL_RADIUS_REG_reg[11]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[4]' (FDR) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[5]' (FDR) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[6]' (FDR) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[7]' (FDR) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[0]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[0]' (FDR) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[1]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[1]' (FDR) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[2]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[2]' (FDR) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[3]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[3]' (FDR) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[8]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[8]' (FDR) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[9]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[9]' (FDR) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[10]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[10]' (FDR) to 'Inst_VGA/Inst_AccelDisplay/color_out_reg_reg[11]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_88/\Inst_FruitCtl/counter_y_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_88/\Inst_FruitCtl/counter_y_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_89/\Inst_FruitCtl/counter_x_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_89/\Inst_FruitCtl/counter_x_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_89/\Inst_FruitCtl/counter_x_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_AccelerometerConv/x_pos_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_89/\Inst_FruitCtl/counter_x_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_88/\Inst_FruitCtl/counter_y_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_AccelerometerConv/y_pos_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (i_88/\Inst_FruitCtl/counter_y_reg[4] )
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACL_X_IN_REG_reg[0]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[1]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACL_X_IN_REG_reg[1]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[2]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACL_X_IN_REG_reg[2]' (FDE) to 'Inst_VGA/ACL_X_IN_REG_reg[3]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/ACL_X_IN_REG_reg[3]' (FDE) to 'Inst_VGA/ACL_Y_IN_REG_reg[3]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_green_dly_reg[0]' (FD) to 'Inst_VGA/acl_red_dly_reg[2]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_green_dly_reg[1]' (FD) to 'Inst_VGA/acl_red_dly_reg[2]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_green_dly_reg[2]' (FD) to 'Inst_VGA/acl_red_dly_reg[2]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_green_dly_reg[3]' (FD) to 'Inst_VGA/acl_red_dly_reg[2]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_blue_dly_reg[0]' (FD) to 'Inst_VGA/acl_red_dly_reg[2]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_blue_dly_reg[1]' (FD) to 'Inst_VGA/acl_red_dly_reg[2]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_blue_dly_reg[2]' (FD) to 'Inst_VGA/acl_red_dly_reg[2]'
+INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_blue_dly_reg[3]' (FD) to 'Inst_VGA/acl_red_dly_reg[2]'
 INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_red_dly_reg[0]' (FD) to 'Inst_VGA/acl_red_dly_reg[2]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/mouse_cursor_red_dly_reg[0]' (FD) to 'Inst_VGA/mouse_cursor_red_dly_reg[3]'
 INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_red_dly_reg[1]' (FD) to 'Inst_VGA/acl_red_dly_reg[2]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/mouse_cursor_red_dly_reg[1]' (FD) to 'Inst_VGA/mouse_cursor_red_dly_reg[3]'
 INFO: [Synth 8-3886] merging instance 'Inst_VGA/acl_red_dly_reg[2]' (FD) to 'Inst_VGA/acl_red_dly_reg[3]'
-INFO: [Synth 8-3886] merging instance 'Inst_VGA/mouse_cursor_red_dly_reg[2]' (FD) to 'Inst_VGA/mouse_cursor_red_dly_reg[3]'
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_VGA/mouse_cursor_red_dly_reg[3] )
+INFO: [Synth 8-3886] merging instance 'Inst_FruitCtl/y_pos_reg[0]' (FDE) to 'Inst_FruitCtl/y_pos_reg[1]'
+INFO: [Synth 8-3886] merging instance 'Inst_FruitCtl/x_pos_reg[0]' (FDE) to 'Inst_FruitCtl/y_pos_reg[1]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_VGA/ACL_Y_IN_REG_reg[3] )
+INFO: [Synth 8-3886] merging instance 'Inst_FruitCtl/y_pos_reg[1]' (FDE) to 'Inst_FruitCtl/y_pos_reg[2]'
+INFO: [Synth 8-3886] merging instance 'Inst_FruitCtl/y_pos_reg[2]' (FDE) to 'Inst_FruitCtl/y_pos_reg[3]'
+INFO: [Synth 8-3886] merging instance 'Inst_FruitCtl/y_pos_reg[3]' (FDE) to 'Inst_FruitCtl/x_pos_reg[1]'
+INFO: [Synth 8-3886] merging instance 'Inst_FruitCtl/x_pos_reg[1]' (FDE) to 'Inst_FruitCtl/x_pos_reg[2]'
+INFO: [Synth 8-3886] merging instance 'Inst_FruitCtl/x_pos_reg[2]' (FDE) to 'Inst_FruitCtl/x_pos_reg[3]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_FruitCtl/x_pos_reg[3] )
 INFO: [Synth 8-3886] merging instance 'Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation/U0/i_synth/i_synth/gen_sqrt.square_root/gen_nd_int/gen_rtl.gen_reg.d_reg_reg' (FDRE) to 'Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation/U0/i_synth/i_synth/gen_sqrt.square_root/gen_iterations[14].gen_pre_mid.gen_rem/gen_inv_sqrt_out/gen_rtl.gen_reg.d_reg_reg[2]'
 INFO: [Synth 8-3886] merging instance 'Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation/U0/i_synth/i_synth/gen_sqrt.square_root/gen_rdy_int/gen_rtl.gen_dly.gen_regs.delay_bus_reg[0]' (FDRE) to 'Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation/U0/i_synth/i_synth/gen_sqrt.square_root/gen_iterations[13].gen_pre_mid.gen_rem/gen_inv_sqrt_out/gen_rtl.gen_reg.d_reg_reg[3]'
 INFO: [Synth 8-3886] merging instance 'Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation/U0/i_synth/i_synth/gen_sqrt.square_root/gen_rdy_int/gen_rtl.gen_dly.gen_regs.delay_bus_reg[1]' (FDRE) to 'Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation/U0/i_synth/i_synth/gen_sqrt.square_root/gen_iterations[12].gen_pre_mid.gen_rem/gen_inv_sqrt_out/gen_rtl.gen_reg.d_reg_reg[4]'
@@ -612,8 +629,10 @@ INFO: [Synth 8-3886] merging instance 'Inst_AccelerometerCtl/Accel_Calculation/M
 INFO: [Synth 8-3886] merging instance 'Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation/U0/i_synth/i_synth/gen_sqrt.square_root/gen_rdy_int/gen_rtl.gen_dly.gen_regs.delay_bus_reg[8]' (FDRE) to 'Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation/U0/i_synth/i_synth/gen_sqrt.square_root/gen_iterations[12].gen_post_mid.gen_rem/gen_inv_sqrt_out/gen_rtl.gen_reg.d_reg_reg[11]'
 INFO: [Synth 8-3886] merging instance 'Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation/U0/i_synth/i_synth/gen_sqrt.square_root/gen_rdy_int/gen_rtl.gen_dly.gen_regs.delay_bus_reg[9]' (FDRE) to 'Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation/U0/i_synth/i_synth/gen_sqrt.square_root/gen_iterations[13].gen_post_mid.gen_rem/gen_inv_sqrt_out/gen_rtl.gen_reg.d_reg_reg[12]'
 INFO: [Synth 8-3886] merging instance 'Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation/U0/i_synth/i_synth/gen_sqrt.square_root/gen_rdy_int/gen_rtl.gen_dly.gen_regs.delay_bus_reg[10]' (FDRE) to 'Inst_AccelerometerCtl/Accel_Calculation/Magnitude_Calculation/U0/i_synth/i_synth/gen_sqrt.square_root/gen_iterations[14].gen_last.gen_rem/gen_inv_sqrt_out/gen_rtl.gen_reg.d_reg_reg[13]'
+INFO: [Synth 8-3886] merging instance 'Inst_FruitCtl/y_pos_reg[4]' (FDE) to 'Inst_FruitCtl/x_pos_reg[4]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\Inst_FruitCtl/x_pos_reg[4] )
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:49 ; elapsed = 00:00:53 . Memory (MB): peak = 919.809 ; gain = 530.961
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:23 ; elapsed = 00:01:40 . Memory (MB): peak = 918.203 ; gain = 529.426
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -625,13 +644,13 @@ Report RTL Partitions:
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:08 ; elapsed = 00:01:12 . Memory (MB): peak = 942.719 ; gain = 553.871
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:55 ; elapsed = 00:02:15 . Memory (MB): peak = 936.582 ; gain = 547.805
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:01:09 ; elapsed = 00:01:13 . Memory (MB): peak = 946.129 ; gain = 557.281
+Finished Timing Optimization : Time (s): cpu = 00:01:57 ; elapsed = 00:02:17 . Memory (MB): peak = 939.258 ; gain = 550.480
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -643,7 +662,7 @@ Report RTL Partitions:
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:01:10 ; elapsed = 00:01:14 . Memory (MB): peak = 972.285 ; gain = 583.438
+Finished Technology Mapping : Time (s): cpu = 00:01:59 ; elapsed = 00:02:19 . Memory (MB): peak = 963.570 ; gain = 574.793
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -663,12 +682,20 @@ Finished Flattening Before IO Insertion
 ---------------------------------------------------------------------------------
 Start Final Netlist Cleanup
 ---------------------------------------------------------------------------------
+INFO: [Synth 8-5365] Flop Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[0] is being inverted and renamed to Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[0]_inv.
+INFO: [Synth 8-5365] Flop Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[1] is being inverted and renamed to Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[1]_inv.
+INFO: [Synth 8-5365] Flop Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[2] is being inverted and renamed to Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[2]_inv.
+INFO: [Synth 8-5365] Flop Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[3] is being inverted and renamed to Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[3]_inv.
+INFO: [Synth 8-5365] Flop Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[4] is being inverted and renamed to Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[4]_inv.
+INFO: [Synth 8-5365] Flop Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[5] is being inverted and renamed to Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[5]_inv.
+INFO: [Synth 8-5365] Flop Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[6] is being inverted and renamed to Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[6]_inv.
+INFO: [Synth 8-5365] Flop Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[7] is being inverted and renamed to Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[7]_inv.
 INFO: [Synth 8-5365] Flop Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[8] is being inverted and renamed to Inst_AccelerometerCtl/Accel_Calculation/ACCEL_Y_CLIP_reg[8]_inv.
 ---------------------------------------------------------------------------------
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:01:12 ; elapsed = 00:01:16 . Memory (MB): peak = 972.285 ; gain = 583.438
+Finished IO Insertion : Time (s): cpu = 00:02:01 ; elapsed = 00:02:21 . Memory (MB): peak = 963.570 ; gain = 574.793
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -681,7 +708,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:01:12 ; elapsed = 00:01:16 . Memory (MB): peak = 972.285 ; gain = 583.438
+Finished Renaming Generated Instances : Time (s): cpu = 00:02:01 ; elapsed = 00:02:21 . Memory (MB): peak = 963.570 ; gain = 574.793
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -693,25 +720,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:12 ; elapsed = 00:01:16 . Memory (MB): peak = 972.285 ; gain = 583.438
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:02:02 ; elapsed = 00:02:22 . Memory (MB): peak = 963.570 ; gain = 574.793
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:01:12 ; elapsed = 00:01:16 . Memory (MB): peak = 972.285 ; gain = 583.438
+Finished Renaming Generated Ports : Time (s): cpu = 00:02:02 ; elapsed = 00:02:22 . Memory (MB): peak = 963.570 ; gain = 574.793
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:01:12 ; elapsed = 00:01:16 . Memory (MB): peak = 972.285 ; gain = 583.438
+Finished Handling Custom Attributes : Time (s): cpu = 00:02:02 ; elapsed = 00:02:22 . Memory (MB): peak = 963.570 ; gain = 574.793
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:01:12 ; elapsed = 00:01:16 . Memory (MB): peak = 972.285 ; gain = 583.438
+Finished Renaming Generated Nets : Time (s): cpu = 00:02:02 ; elapsed = 00:02:22 . Memory (MB): peak = 963.570 ; gain = 574.793
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -728,46 +755,46 @@ Report Cell Usage:
 |      |Cell       |Count |
 +------+-----------+------+
 |1     |BUFG       |     3|
-|2     |CARRY4     |   171|
+|2     |CARRY4     |   136|
 |3     |DSP48E1_1  |     3|
-|4     |LUT1       |   163|
-|5     |LUT2       |   640|
-|6     |LUT3       |   180|
-|7     |LUT4       |    76|
-|8     |LUT5       |    52|
-|9     |LUT6       |    67|
+|4     |LUT1       |   167|
+|5     |LUT2       |   382|
+|6     |LUT3       |   185|
+|7     |LUT4       |   186|
+|8     |LUT5       |    58|
+|9     |LUT6       |    81|
 |10    |MMCME2_ADV |     1|
 |11    |MUXCY      |   126|
 |12    |SRL16E     |    27|
 |13    |XORCY      |   111|
-|14    |FDRE       |   766|
-|15    |FDSE       |    25|
+|14    |FDRE       |   781|
+|15    |FDSE       |    53|
 |16    |IBUF       |     3|
 |17    |OBUF       |    17|
 +------+-----------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:01:12 ; elapsed = 00:01:16 . Memory (MB): peak = 972.285 ; gain = 583.438
+Finished Writing Synthesis Report : Time (s): cpu = 00:02:02 ; elapsed = 00:02:22 . Memory (MB): peak = 963.570 ; gain = 574.793
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 235 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:36 ; elapsed = 00:01:07 . Memory (MB): peak = 972.285 ; gain = 333.402
-Synthesis Optimization Complete : Time (s): cpu = 00:01:13 ; elapsed = 00:01:17 . Memory (MB): peak = 972.285 ; gain = 583.438
+Synthesis finished with 0 errors, 0 critical warnings and 262 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:58 ; elapsed = 00:02:04 . Memory (MB): peak = 963.570 ; gain = 326.656
+Synthesis Optimization Complete : Time (s): cpu = 00:02:03 ; elapsed = 00:02:23 . Memory (MB): peak = 963.570 ; gain = 574.793
 INFO: [Project 1-571] Translating synthesized netlist
-INFO: [Netlist 29-17] Analyzing 412 Unisim elements for replacement
+INFO: [Netlist 29-17] Analyzing 377 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 972.285 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 963.570 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 39 instances were transformed.
   (MUXCY,XORCY) => CARRY4: 39 instances
 
 INFO: [Common 17-83] Releasing license: Synthesis
-172 Infos, 168 Warnings, 0 Critical Warnings and 0 Errors encountered.
+208 Infos, 159 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:01:16 ; elapsed = 00:01:20 . Memory (MB): peak = 972.285 ; gain = 594.898
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 972.285 ; gain = 0.000
+synth_design: Time (s): cpu = 00:02:08 ; elapsed = 00:02:28 . Memory (MB): peak = 963.570 ; gain = 586.262
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 963.570 ; gain = 0.000
 WARNING: [Constraints 18-5210] No constraints selected for write.
 Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
 INFO: [Common 17-1381] The checkpoint 'C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.runs/synth_1/main.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file main_utilization_synth.rpt -pb main_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Wed Dec 11 08:46:47 2019...
+INFO: [Common 17-206] Exiting Vivado at Thu Dec 12 17:11:47 2019...

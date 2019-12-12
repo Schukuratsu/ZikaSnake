@@ -33,13 +33,14 @@ set_property board_part digilentinc.com:nexys4_ddr:part0:1.1 [current_project]
 set_property ip_output_repo c:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 add_files C:/Users/lucas/chilinquis/vivado_proj/Nexys-4-DDR-OOB.srcs/sources_1/imports/src/other/Nexys4_all.coe
-add_files c:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/src/other/Nexys4_all.coe
+add_files C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/src/other/Nexys4_all.coe
 read_vhdl -library xil_defaultlib {
   C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/ADXL362Ctrl.vhd
   C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelArithmetics.vhd
   C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelDisplay.vhd
   C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/AccelerometerConverter.vhd
   C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/AccelerometerCtl.vhd
+  C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/FruitCtl.vhd
   C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/SPI_If.vhd
   C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/imports/hdl/Vga.vhd
   C:/Users/lucas/chilinquis/ZikaSnake/ZikaSnake.srcs/sources_1/new/main.vhd

@@ -52,8 +52,8 @@ entity AccelDisplay is
             CLK_I : IN std_logic;
             H_COUNT_I : IN std_logic_vector(11 downto 0);
             V_COUNT_I : IN std_logic_vector(11 downto 0);
-            ACCEL_X_I : IN std_logic_vector(8 downto 0); -- X acceleration input data
-            ACCEL_Y_I : IN std_logic_vector(8 downto 0); -- Y acceleration input data
+            ACCEL_X_I : IN std_logic_vector(11 downto 0); -- X acceleration input data
+            ACCEL_Y_I : IN std_logic_vector(11 downto 0); -- Y acceleration input data
             ACCEL_MAG_I : IN std_logic_vector(8 downto 0); -- Acceleration magnitude input data
             ACCEL_RADIUS : IN  STD_LOGIC_VECTOR (11 downto 0); -- Size of the box moving according to acceleration data
             LEVEL_THRESH : IN  STD_LOGIC_VECTOR (11 downto 0); -- Size of the threshold box
@@ -114,10 +114,14 @@ begin
 
 -- Set the limit signals
 -- Moving box limits
-MOVING_BOX_LEFT   <= X_START - conv_integer(ACCEL_RADIUS) - 1;
-MOVING_BOX_RIGHT  <= X_START + conv_integer(ACCEL_RADIUS) + 1;
-MOVING_BOX_TOP	  <= Y_START - conv_integer(ACCEL_RADIUS) - 1;
-MOVING_BOX_BOTTOM <= Y_START + conv_integer(ACCEL_RADIUS) + 1;
+MOVING_BOX_LEFT   <= X_START;
+--MOVING_BOX_LEFT   <= X_START - conv_integer(ACCEL_RADIUS) - 1;
+MOVING_BOX_RIGHT  <= X_START + conv_integer(ACCEL_RADIUS) + conv_integer(ACCEL_RADIUS);
+--MOVING_BOX_RIGHT  <= X_START + conv_integer(ACCEL_RADIUS) + 1;
+MOVING_BOX_TOP	  <= Y_START;
+--MOVING_BOX_TOP	  <= Y_START - conv_integer(ACCEL_RADIUS) - 1;
+MOVING_BOX_BOTTOM <= Y_START + conv_integer(ACCEL_RADIUS) + conv_integer(ACCEL_RADIUS);
+--MOVING_BOX_BOTTOM <= Y_START + conv_integer(ACCEL_RADIUS) + 1;
 
 --Threshold box limits
 THRESHOLD_BOX_LEFT	 <= FR_XY_H_MID + X_START - conv_integer(LEVEL_THRESH) - 1;
@@ -137,13 +141,13 @@ draw_moving_box <= '1' when H_COUNT_I > (("000" & ACCEL_Y_I) + MOVING_BOX_LEFT)
                     else '0';
 
 --Create the magnitude level signal
---draw_magnitude_level <= '0';
-draw_magnitude_level <= '1' when   H_COUNT_I >= (X_MAG_START - 1)
-                              and  H_COUNT_I <= X_MAG_END
-                              and (V_COUNT_I + ("000" & ACCEL_X_I)) >= Y_END 
---                              and (V_COUNT_I + ("000" & ACCEL_MAG_I)) >= Y_END 
-                              and  V_COUNT_I <= Y_END    
-                        else '0';
+draw_magnitude_level <= '0';
+--draw_magnitude_level <= '1' when   H_COUNT_I >= (X_MAG_START - 1)
+--                              and  H_COUNT_I <= X_MAG_END
+--                              and (V_COUNT_I + ("000" & ACCEL_X_I)) >= Y_END 
+----                              and (V_COUNT_I + ("000" & ACCEL_MAG_I)) >= Y_END 
+--                              and  V_COUNT_I <= Y_END    
+--                        else '0';
  
 --Create the threshold box signal 
 draw_threshold_box <= '0'; 
@@ -173,7 +177,7 @@ begin
     if (draw_threshold_box = '1') then -- Threshold box is black
       color_out_reg <= x"000";
     elsif (draw_moving_box = '1') then -- Moving box is either green or red
-      color_out_reg <= level_color;
+      color_out_reg <= x"000";
     elsif (draw_magnitude_level = '1') then -- Magnitude color will be the same as the active color
       color_out_reg <= magnitude_color;
     else
