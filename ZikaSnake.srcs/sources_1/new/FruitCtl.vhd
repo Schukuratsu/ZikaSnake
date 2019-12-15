@@ -40,17 +40,17 @@ entity FruitCtl is
            snake_x_pos : in STD_LOGIC_VECTOR (11 downto 0);
            snake_y_pos : in STD_LOGIC_VECTOR (11 downto 0);
            --output
-           x_pos : out STD_LOGIC_VECTOR (11 downto 0);
-           y_pos : out STD_LOGIC_VECTOR (11 downto 0));
+           x_pos : out STD_LOGIC_VECTOR (11 downto 0) := "000010000000";
+           y_pos : out STD_LOGIC_VECTOR (11 downto 0) := "000100000000");
 end FruitCtl;
 
 architecture Behavioral of FruitCtl is
 
 --counter will generate a pseudo random position value
-signal counter_x       : STD_LOGIC_VECTOR (11 downto 0) := (others => '0');
 signal counter_y       : STD_LOGIC_VECTOR (11 downto 0) := (others => '0');
-constant counter_x_max : STD_LOGIC_VECTOR (11 downto 0) := "010100000000";
-constant counter_y_max : STD_LOGIC_VECTOR (11 downto 0) := "010000000000";
+signal counter_x       : STD_LOGIC_VECTOR (11 downto 0) := (others => '0');
+constant counter_y_max : STD_LOGIC_VECTOR (11 downto 0) := "010100000000";
+constant counter_x_max : STD_LOGIC_VECTOR (11 downto 0) := "010000000000";
 constant step_size     : STD_LOGIC_VECTOR (11 downto 0) := "000000100000";
 
 begin
@@ -59,16 +59,16 @@ pseudo_random : process(clk)
 begin
     if(clk'event and clk = '1') then
         --x counter
-        if(counter_x >= counter_x_max - step_size) then
-            counter_x <= (others => '0');
+        if(counter_x = 0) then
+            counter_x <= counter_x_max - step_size;
         else
-            counter_x <= counter_x + step_size;
+            counter_x <= counter_x - step_size;
         end if;
         --y counter
-        if(counter_y >= counter_x_max - step_size) then
-            counter_y <= (others => '0');
+        if(counter_y = 0) then
+            counter_y <= counter_y_max - step_size;
         else
-            counter_y <= counter_y + step_size;
+            counter_y <= counter_y - step_size;
         end if;
     end if;
 end process;
@@ -97,6 +97,9 @@ begin
         end if;
     end if;
 end process;
+
+--x_pos <= x_pos_reg;
+--y_pos <= y_pos_reg;
 
 
 end Behavioral;

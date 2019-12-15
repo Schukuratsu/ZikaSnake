@@ -1,7 +1,7 @@
 Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2018.3 (win64) Build 2405991 Thu Dec  6 23:38:27 MST 2018
-| Date             : Thu Dec 12 17:15:03 2019
+| Date             : Sun Dec 15 01:09:52 2019
 | Host             : DESKTOP-UMDKHO6 running 64-bit major release  (build 9200)
 | Command          : report_power -file main_power_routed.rpt -pb main_power_summary_routed.pb -rpx main_power_routed.rpx
 | Design           : main
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.244        |
+| Total On-Chip Power (W)  | 0.246        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.146        |
+| Dynamic (W)              | 0.149        |
 | Device Static (W)        | 0.098        |
 | Effective TJA (C/W)      | 4.6          |
 | Max Ambient (C)          | 83.9         |
@@ -52,18 +52,18 @@ Table of Contents
 +-------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                 | Power (W) | Used     | Available | Utilization (%) |
 +-------------------------+-----------+----------+-----------+-----------------+
-| Clocks                  |     0.003 |        8 |       --- |             --- |
-| Slice Logic             |     0.002 |     1327 |       --- |             --- |
-|   LUT as Logic          |     0.001 |      530 |     63400 |            0.84 |
-|   CARRY4                |    <0.001 |      113 |     15850 |            0.71 |
-|   Register              |    <0.001 |      488 |    126800 |            0.38 |
+| Clocks                  |     0.004 |        8 |       --- |             --- |
+| Slice Logic             |     0.002 |     2258 |       --- |             --- |
+|   LUT as Logic          |     0.002 |      831 |     63400 |            1.31 |
+|   CARRY4                |    <0.001 |       77 |     15850 |            0.49 |
+|   Register              |    <0.001 |     1186 |    126800 |            0.94 |
 |   LUT as Shift Register |    <0.001 |        4 |     19000 |            0.02 |
-|   Others                |     0.000 |       17 |       --- |             --- |
-| Signals                 |     0.001 |      828 |       --- |             --- |
+|   Others                |     0.000 |       15 |       --- |             --- |
+| Signals                 |     0.002 |     1875 |       --- |             --- |
 | MMCM                    |     0.135 |        1 |         6 |           16.67 |
-| I/O                     |     0.005 |       20 |       210 |            9.52 |
+| I/O                     |     0.006 |       20 |       210 |            9.52 |
 | Static Power            |     0.098 |          |           |                 |
-| Total                   |     0.244 |          |           |                 |
+| Total                   |     0.246 |          |           |                 |
 +-------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -73,9 +73,9 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     0.022 |       0.007 |      0.015 |
+| Vccint    |       1.000 |     0.023 |       0.008 |      0.015 |
 | Vccaux    |       1.800 |     0.093 |       0.075 |      0.018 |
-| Vcco33    |       3.300 |     0.005 |       0.001 |      0.004 |
+| Vcco33    |       3.300 |     0.006 |       0.002 |      0.004 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |
@@ -144,15 +144,16 @@ Table of Contents
 3.1 By Hierarchy
 ----------------
 
-+-------------------------+-----------+
-| Name                    | Power (W) |
-+-------------------------+-----------+
-| main                    |     0.146 |
-|   Inst_AccelerometerCtl |     0.002 |
-|     ADXL_Control        |     0.002 |
-|   Inst_ClkGen           |     0.136 |
-|     inst                |     0.136 |
-|   Inst_VGA              |     0.002 |
-+-------------------------+-----------+
++--------------------------+-----------+
+| Name                     | Power (W) |
++--------------------------+-----------+
+| main                     |     0.149 |
+|   Inst_AccelerometerConv |     0.001 |
+|   Inst_AccelerometerCtl  |     0.001 |
+|     ADXL_Control         |     0.001 |
+|   Inst_ClkGen            |     0.136 |
+|     inst                 |     0.136 |
+|   Inst_VGA               |     0.003 |
++--------------------------+-----------+
 
 

@@ -98,7 +98,8 @@ entity Vga is
            -- Fruit
            fruit_x     : in std_logic_vector (11 downto 0);
            fruit_y  : in std_logic_vector (11 downto 0);
-           colision_trigger  : out std_logic
+           eaten  : out std_logic;
+           update  : in std_logic
            );
 end Vga;
 
@@ -567,8 +568,8 @@ signal ADXL362_TEMP_VALUE_I_REG  : std_logic_vector (11 downto 0);
 
 signal ACCEL_RADIUS_REG : STD_LOGIC_VECTOR (11 downto 0);
 signal LEVEL_THRESH_REG : STD_LOGIC_VECTOR (11 downto 0);
-signal ACL_X_IN_REG     : STD_LOGIC_VECTOR (11 downto 0);
-signal ACL_Y_IN_REG     : STD_LOGIC_VECTOR (11 downto 0);
+signal ACL_X_IN_REG     : STD_LOGIC_VECTOR (11 downto 0) := (others => '0');
+signal ACL_Y_IN_REG     : STD_LOGIC_VECTOR (11 downto 0) := (others => '0');
 signal ACL_MAG_IN_REG   : STD_LOGIC_VECTOR (11 downto 0);
 
 signal MIC_M_DATA_I_REG : STD_LOGIC;
@@ -577,8 +578,8 @@ signal MOUSE_X_POS_REG  : std_logic_vector (11 downto 0);
 signal MOUSE_Y_POS_REG  : std_logic_vector (11 downto 0);
 signal MOUSE_LEFT_BUTTON_REG : std_logic;
 
-signal fruit_x_reg  : std_logic_vector (11 downto 0);
-signal fruit_y_reg  : std_logic_vector (11 downto 0);
+signal fruit_x_reg  : std_logic_vector (11 downto 0) := (others => '1');
+signal fruit_y_reg  : std_logic_vector (11 downto 0) := (others => '1');
 
 -----------------------------------------------------------
 -- Signals for generating the background (moving colorbar)
@@ -731,14 +732,18 @@ signal enable_mouse_display_dly  :  std_logic;
 signal overlay_en_dly : std_logic; 
 
 --fruit
-signal fruit_left   : std_logic_vector (11 downto 0);
-signal fruit_right  : std_logic_vector (11 downto 0);
-signal fruit_top	: std_logic_vector (11 downto 0); 
-signal fruit_bottom : std_logic_vector (11 downto 0);
 
 signal fruit_red_dly   : std_logic_vector (3 downto 0) := x"F";
 signal fruit_green_dly : std_logic_vector (3 downto 0) := x"0"; 
 signal fruit_blue_dly  : std_logic_vector (3 downto 0) := x"0";
+
+signal snake_body_x : std_logic_vector(349 downto 0) := (others => '0');
+signal snake_body_y : std_logic_vector(349 downto 0) := (others => '0');
+signal fruit_counter : std_logic_vector(9 downto 0) := "0000000000";
+signal colision_trigger : std_logic;
+signal colision_aux : std_logic;
+
+signal died : std_logic := '0';
 
 begin
   
@@ -972,8 +977,8 @@ end process register_inputs;
 		acl_blue_dly		<= acl_blue;
       
       bg_red_dly			<= bg_red;
-		bg_green_dly		<= bg_green;
-		bg_blue_dly			<= bg_blue;
+      bg_green_dly		    <= bg_green;
+      bg_blue_dly			<= bg_blue;
 
       mouse_cursor_red_dly    <= mouse_cursor_red;
       mouse_cursor_blue_dly   <= mouse_cursor_blue;
@@ -984,7 +989,7 @@ end process register_inputs;
       overlay_en_dly <= overlay_en;
       
       h_cntr_reg_dly <= h_cntr_reg;
-		v_cntr_reg_dly <= v_cntr_reg;
+	  v_cntr_reg_dly <= v_cntr_reg;
       
       
     end if;
@@ -1000,46 +1005,193 @@ end process register_inputs;
 -- Red
 ----------
 
-  vga_red <=   -- Fruit display
-               fruit_red_dly when h_cntr_reg_dly >= fruit_left and h_cntr_reg_dly <= fruit_right 
-                             and v_cntr_reg_dly >= fruit_top and v_cntr_reg_dly <= fruit_bottom
-               else
-               -- Accelerometer display   
-               acl_red_dly when h_cntr_reg_dly >= ACL_LEFT and h_cntr_reg_dly <= ACL_RIGHT 
-                            and v_cntr_reg_dly >= ACL_TOP and v_cntr_reg_dly <= ACL_BOTTOM
-               else
+  vga_red <=   --died
+               x"0" when died = '1' else
+               -- Fruit display
+               fruit_red_dly when (h_cntr_reg_dly(11 downto 5) = fruit_x_reg(11 downto 5) and v_cntr_reg_dly(11 downto 5) = fruit_y_reg(11 downto 5)) else
+               -- snake head
+               x"0" when (h_cntr_reg_dly(11 downto 5) = ACL_X_IN_REG(11 downto 5) and v_cntr_reg_dly(11 downto 5) = ACL_Y_IN_REG(11 downto 5)) else
+               -- snake body
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(6 downto 0)     and v_cntr_reg_dly(11 downto 5) = snake_body_y(6 downto 0)     and fruit_counter > 0)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(13 downto 7)    and v_cntr_reg_dly(11 downto 5) = snake_body_y(13 downto 7)    and fruit_counter > 1)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(20 downto 14)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(20 downto 14)   and fruit_counter > 2)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(27 downto 21)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(27 downto 21)   and fruit_counter > 3)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(34 downto 28)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(34 downto 28)   and fruit_counter > 4)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(41 downto 35)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(41 downto 35)   and fruit_counter > 5)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(48 downto 42)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(48 downto 42)   and fruit_counter > 6)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(55 downto 49)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(55 downto 49)   and fruit_counter > 7)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(62 downto 56)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(62 downto 56)   and fruit_counter > 8)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(69 downto 63)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(69 downto 63)   and fruit_counter > 9)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(76 downto 70)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(76 downto 70)   and fruit_counter > 10) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(83 downto 77)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(83 downto 77)   and fruit_counter > 11) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(90 downto 84)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(90 downto 84)   and fruit_counter > 12) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(97 downto 91)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(97 downto 91)   and fruit_counter > 13) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(104 downto 98)  and v_cntr_reg_dly(11 downto 5) = snake_body_y(104 downto 98)  and fruit_counter > 14) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(111 downto 105) and v_cntr_reg_dly(11 downto 5) = snake_body_y(111 downto 105) and fruit_counter > 15) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(118 downto 112) and v_cntr_reg_dly(11 downto 5) = snake_body_y(118 downto 112) and fruit_counter > 16) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(125 downto 119) and v_cntr_reg_dly(11 downto 5) = snake_body_y(125 downto 119) and fruit_counter > 17) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(132 downto 126) and v_cntr_reg_dly(11 downto 5) = snake_body_y(132 downto 126) and fruit_counter > 18) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(139 downto 133) and v_cntr_reg_dly(11 downto 5) = snake_body_y(139 downto 133) and fruit_counter > 19) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(146 downto 140) and v_cntr_reg_dly(11 downto 5) = snake_body_y(146 downto 140) and fruit_counter > 20) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(153 downto 147) and v_cntr_reg_dly(11 downto 5) = snake_body_y(153 downto 147) and fruit_counter > 21) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(160 downto 154) and v_cntr_reg_dly(11 downto 5) = snake_body_y(160 downto 154) and fruit_counter > 22) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(167 downto 161) and v_cntr_reg_dly(11 downto 5) = snake_body_y(167 downto 161) and fruit_counter > 23) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(174 downto 168) and v_cntr_reg_dly(11 downto 5) = snake_body_y(174 downto 168) and fruit_counter > 24) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(181 downto 175) and v_cntr_reg_dly(11 downto 5) = snake_body_y(181 downto 175) and fruit_counter > 25) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(188 downto 182) and v_cntr_reg_dly(11 downto 5) = snake_body_y(188 downto 182) and fruit_counter > 26) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(195 downto 189) and v_cntr_reg_dly(11 downto 5) = snake_body_y(195 downto 189) and fruit_counter > 27) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(202 downto 196) and v_cntr_reg_dly(11 downto 5) = snake_body_y(202 downto 196) and fruit_counter > 28) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(209 downto 203) and v_cntr_reg_dly(11 downto 5) = snake_body_y(209 downto 203) and fruit_counter > 29) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(216 downto 210) and v_cntr_reg_dly(11 downto 5) = snake_body_y(216 downto 210) and fruit_counter > 30) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(223 downto 217) and v_cntr_reg_dly(11 downto 5) = snake_body_y(223 downto 217) and fruit_counter > 31) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(230 downto 224) and v_cntr_reg_dly(11 downto 5) = snake_body_y(230 downto 224) and fruit_counter > 32) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(237 downto 231) and v_cntr_reg_dly(11 downto 5) = snake_body_y(237 downto 231) and fruit_counter > 33) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(244 downto 238) and v_cntr_reg_dly(11 downto 5) = snake_body_y(244 downto 238) and fruit_counter > 34) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(251 downto 245) and v_cntr_reg_dly(11 downto 5) = snake_body_y(251 downto 245) and fruit_counter > 35) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(258 downto 252) and v_cntr_reg_dly(11 downto 5) = snake_body_y(258 downto 252) and fruit_counter > 36) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(265 downto 259) and v_cntr_reg_dly(11 downto 5) = snake_body_y(265 downto 259) and fruit_counter > 37) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(272 downto 266) and v_cntr_reg_dly(11 downto 5) = snake_body_y(272 downto 266) and fruit_counter > 38) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(279 downto 273) and v_cntr_reg_dly(11 downto 5) = snake_body_y(279 downto 273) and fruit_counter > 39) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(286 downto 280) and v_cntr_reg_dly(11 downto 5) = snake_body_y(286 downto 280) and fruit_counter > 40) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(293 downto 287) and v_cntr_reg_dly(11 downto 5) = snake_body_y(293 downto 287) and fruit_counter > 41) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(300 downto 294) and v_cntr_reg_dly(11 downto 5) = snake_body_y(300 downto 294) and fruit_counter > 42) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(307 downto 301) and v_cntr_reg_dly(11 downto 5) = snake_body_y(307 downto 301) and fruit_counter > 43) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(314 downto 308) and v_cntr_reg_dly(11 downto 5) = snake_body_y(314 downto 308) and fruit_counter > 44) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(321 downto 315) and v_cntr_reg_dly(11 downto 5) = snake_body_y(321 downto 315) and fruit_counter > 45) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(328 downto 322) and v_cntr_reg_dly(11 downto 5) = snake_body_y(328 downto 322) and fruit_counter > 46) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(335 downto 329) and v_cntr_reg_dly(11 downto 5) = snake_body_y(335 downto 329) and fruit_counter > 47) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(342 downto 336) and v_cntr_reg_dly(11 downto 5) = snake_body_y(342 downto 336) and fruit_counter > 48) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(349 downto 343) and v_cntr_reg_dly(11 downto 5) = snake_body_y(349 downto 343) and fruit_counter > 49) else
                -- Colorbar will be on the backround
-               bg_red_dly;
+               x"F";
                 
 -----------
 -- Green
 -----------
 
-  vga_green <= -- Fruit display
-               fruit_green_dly when h_cntr_reg_dly >= fruit_left and h_cntr_reg_dly <= fruit_right 
-                             and v_cntr_reg_dly >= fruit_top and v_cntr_reg_dly <= fruit_bottom
-               else
-               -- Accelerometer display
-               acl_green_dly when h_cntr_reg_dly >= ACL_LEFT and h_cntr_reg_dly <= ACL_RIGHT 
-                              and v_cntr_reg_dly >= ACL_TOP and v_cntr_reg_dly <= ACL_BOTTOM
-               else
+  vga_green <= --died
+               x"0" when died = '1' else
+               -- Fruit display
+               fruit_green_dly when (h_cntr_reg_dly(11 downto 5) = fruit_x_reg(11 downto 5) and v_cntr_reg_dly(11 downto 5) = fruit_y_reg(11 downto 5)) else
+               -- snake head
+               x"0" when (h_cntr_reg_dly(11 downto 5) = ACL_X_IN_REG(11 downto 5) and v_cntr_reg_dly(11 downto 5) = ACL_Y_IN_REG(11 downto 5)) else
+               -- snake body
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(6 downto 0)     and v_cntr_reg_dly(11 downto 5) = snake_body_y(6 downto 0)     and fruit_counter > 0)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(13 downto 7)    and v_cntr_reg_dly(11 downto 5) = snake_body_y(13 downto 7)    and fruit_counter > 1)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(20 downto 14)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(20 downto 14)   and fruit_counter > 2)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(27 downto 21)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(27 downto 21)   and fruit_counter > 3)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(34 downto 28)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(34 downto 28)   and fruit_counter > 4)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(41 downto 35)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(41 downto 35)   and fruit_counter > 5)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(48 downto 42)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(48 downto 42)   and fruit_counter > 6)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(55 downto 49)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(55 downto 49)   and fruit_counter > 7)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(62 downto 56)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(62 downto 56)   and fruit_counter > 8)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(69 downto 63)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(69 downto 63)   and fruit_counter > 9)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(76 downto 70)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(76 downto 70)   and fruit_counter > 10) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(83 downto 77)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(83 downto 77)   and fruit_counter > 11) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(90 downto 84)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(90 downto 84)   and fruit_counter > 12) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(97 downto 91)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(97 downto 91)   and fruit_counter > 13) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(104 downto 98)  and v_cntr_reg_dly(11 downto 5) = snake_body_y(104 downto 98)  and fruit_counter > 14) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(111 downto 105) and v_cntr_reg_dly(11 downto 5) = snake_body_y(111 downto 105) and fruit_counter > 15) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(118 downto 112) and v_cntr_reg_dly(11 downto 5) = snake_body_y(118 downto 112) and fruit_counter > 16) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(125 downto 119) and v_cntr_reg_dly(11 downto 5) = snake_body_y(125 downto 119) and fruit_counter > 17) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(132 downto 126) and v_cntr_reg_dly(11 downto 5) = snake_body_y(132 downto 126) and fruit_counter > 18) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(139 downto 133) and v_cntr_reg_dly(11 downto 5) = snake_body_y(139 downto 133) and fruit_counter > 19) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(146 downto 140) and v_cntr_reg_dly(11 downto 5) = snake_body_y(146 downto 140) and fruit_counter > 20) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(153 downto 147) and v_cntr_reg_dly(11 downto 5) = snake_body_y(153 downto 147) and fruit_counter > 21) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(160 downto 154) and v_cntr_reg_dly(11 downto 5) = snake_body_y(160 downto 154) and fruit_counter > 22) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(167 downto 161) and v_cntr_reg_dly(11 downto 5) = snake_body_y(167 downto 161) and fruit_counter > 23) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(174 downto 168) and v_cntr_reg_dly(11 downto 5) = snake_body_y(174 downto 168) and fruit_counter > 24) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(181 downto 175) and v_cntr_reg_dly(11 downto 5) = snake_body_y(181 downto 175) and fruit_counter > 25) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(188 downto 182) and v_cntr_reg_dly(11 downto 5) = snake_body_y(188 downto 182) and fruit_counter > 26) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(195 downto 189) and v_cntr_reg_dly(11 downto 5) = snake_body_y(195 downto 189) and fruit_counter > 27) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(202 downto 196) and v_cntr_reg_dly(11 downto 5) = snake_body_y(202 downto 196) and fruit_counter > 28) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(209 downto 203) and v_cntr_reg_dly(11 downto 5) = snake_body_y(209 downto 203) and fruit_counter > 29) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(216 downto 210) and v_cntr_reg_dly(11 downto 5) = snake_body_y(216 downto 210) and fruit_counter > 30) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(223 downto 217) and v_cntr_reg_dly(11 downto 5) = snake_body_y(223 downto 217) and fruit_counter > 31) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(230 downto 224) and v_cntr_reg_dly(11 downto 5) = snake_body_y(230 downto 224) and fruit_counter > 32) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(237 downto 231) and v_cntr_reg_dly(11 downto 5) = snake_body_y(237 downto 231) and fruit_counter > 33) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(244 downto 238) and v_cntr_reg_dly(11 downto 5) = snake_body_y(244 downto 238) and fruit_counter > 34) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(251 downto 245) and v_cntr_reg_dly(11 downto 5) = snake_body_y(251 downto 245) and fruit_counter > 35) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(258 downto 252) and v_cntr_reg_dly(11 downto 5) = snake_body_y(258 downto 252) and fruit_counter > 36) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(265 downto 259) and v_cntr_reg_dly(11 downto 5) = snake_body_y(265 downto 259) and fruit_counter > 37) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(272 downto 266) and v_cntr_reg_dly(11 downto 5) = snake_body_y(272 downto 266) and fruit_counter > 38) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(279 downto 273) and v_cntr_reg_dly(11 downto 5) = snake_body_y(279 downto 273) and fruit_counter > 39) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(286 downto 280) and v_cntr_reg_dly(11 downto 5) = snake_body_y(286 downto 280) and fruit_counter > 40) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(293 downto 287) and v_cntr_reg_dly(11 downto 5) = snake_body_y(293 downto 287) and fruit_counter > 41) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(300 downto 294) and v_cntr_reg_dly(11 downto 5) = snake_body_y(300 downto 294) and fruit_counter > 42) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(307 downto 301) and v_cntr_reg_dly(11 downto 5) = snake_body_y(307 downto 301) and fruit_counter > 43) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(314 downto 308) and v_cntr_reg_dly(11 downto 5) = snake_body_y(314 downto 308) and fruit_counter > 44) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(321 downto 315) and v_cntr_reg_dly(11 downto 5) = snake_body_y(321 downto 315) and fruit_counter > 45) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(328 downto 322) and v_cntr_reg_dly(11 downto 5) = snake_body_y(328 downto 322) and fruit_counter > 46) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(335 downto 329) and v_cntr_reg_dly(11 downto 5) = snake_body_y(335 downto 329) and fruit_counter > 47) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(342 downto 336) and v_cntr_reg_dly(11 downto 5) = snake_body_y(342 downto 336) and fruit_counter > 48) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(349 downto 343) and v_cntr_reg_dly(11 downto 5) = snake_body_y(349 downto 343) and fruit_counter > 49) else
                -- Colorbar will be on the backround
-               bg_green_dly;
+               x"F";
 
 -----------
 -- Blue
 -----------
 
-  vga_blue <=  -- Fruit display
-               fruit_blue_dly when h_cntr_reg_dly >= fruit_left and h_cntr_reg_dly <= fruit_right 
-                             and v_cntr_reg_dly >= fruit_top and v_cntr_reg_dly <= fruit_bottom
-               else
-               -- Accelerometer display
-               acl_blue_dly when h_cntr_reg_dly >= ACL_LEFT and h_cntr_reg_dly <= ACL_RIGHT 
-                             and v_cntr_reg_dly >= ACL_TOP and v_cntr_reg_dly <= ACL_BOTTOM
-               else
+  vga_blue <=  --died
+               x"F" when died = '1' else
+               -- Fruit display
+               fruit_blue_dly when (h_cntr_reg_dly(11 downto 5) = fruit_x_reg(11 downto 5) and v_cntr_reg_dly(11 downto 5) = fruit_y_reg(11 downto 5)) else
+               -- snake head
+               x"0" when (h_cntr_reg_dly(11 downto 5) = ACL_X_IN_REG(11 downto 5) and v_cntr_reg_dly(11 downto 5) = ACL_Y_IN_REG(11 downto 5)) else
+               -- snake body
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(6 downto 0)     and v_cntr_reg_dly(11 downto 5) = snake_body_y(6 downto 0)     and fruit_counter > 0)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(13 downto 7)    and v_cntr_reg_dly(11 downto 5) = snake_body_y(13 downto 7)    and fruit_counter > 1)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(20 downto 14)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(20 downto 14)   and fruit_counter > 2)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(27 downto 21)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(27 downto 21)   and fruit_counter > 3)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(34 downto 28)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(34 downto 28)   and fruit_counter > 4)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(41 downto 35)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(41 downto 35)   and fruit_counter > 5)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(48 downto 42)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(48 downto 42)   and fruit_counter > 6)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(55 downto 49)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(55 downto 49)   and fruit_counter > 7)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(62 downto 56)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(62 downto 56)   and fruit_counter > 8)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(69 downto 63)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(69 downto 63)   and fruit_counter > 9)  else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(76 downto 70)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(76 downto 70)   and fruit_counter > 10) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(83 downto 77)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(83 downto 77)   and fruit_counter > 11) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(90 downto 84)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(90 downto 84)   and fruit_counter > 12) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(97 downto 91)   and v_cntr_reg_dly(11 downto 5) = snake_body_y(97 downto 91)   and fruit_counter > 13) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(104 downto 98)  and v_cntr_reg_dly(11 downto 5) = snake_body_y(104 downto 98)  and fruit_counter > 14) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(111 downto 105) and v_cntr_reg_dly(11 downto 5) = snake_body_y(111 downto 105) and fruit_counter > 15) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(118 downto 112) and v_cntr_reg_dly(11 downto 5) = snake_body_y(118 downto 112) and fruit_counter > 16) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(125 downto 119) and v_cntr_reg_dly(11 downto 5) = snake_body_y(125 downto 119) and fruit_counter > 17) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(132 downto 126) and v_cntr_reg_dly(11 downto 5) = snake_body_y(132 downto 126) and fruit_counter > 18) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(139 downto 133) and v_cntr_reg_dly(11 downto 5) = snake_body_y(139 downto 133) and fruit_counter > 19) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(146 downto 140) and v_cntr_reg_dly(11 downto 5) = snake_body_y(146 downto 140) and fruit_counter > 20) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(153 downto 147) and v_cntr_reg_dly(11 downto 5) = snake_body_y(153 downto 147) and fruit_counter > 21) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(160 downto 154) and v_cntr_reg_dly(11 downto 5) = snake_body_y(160 downto 154) and fruit_counter > 22) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(167 downto 161) and v_cntr_reg_dly(11 downto 5) = snake_body_y(167 downto 161) and fruit_counter > 23) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(174 downto 168) and v_cntr_reg_dly(11 downto 5) = snake_body_y(174 downto 168) and fruit_counter > 24) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(181 downto 175) and v_cntr_reg_dly(11 downto 5) = snake_body_y(181 downto 175) and fruit_counter > 25) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(188 downto 182) and v_cntr_reg_dly(11 downto 5) = snake_body_y(188 downto 182) and fruit_counter > 26) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(195 downto 189) and v_cntr_reg_dly(11 downto 5) = snake_body_y(195 downto 189) and fruit_counter > 27) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(202 downto 196) and v_cntr_reg_dly(11 downto 5) = snake_body_y(202 downto 196) and fruit_counter > 28) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(209 downto 203) and v_cntr_reg_dly(11 downto 5) = snake_body_y(209 downto 203) and fruit_counter > 29) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(216 downto 210) and v_cntr_reg_dly(11 downto 5) = snake_body_y(216 downto 210) and fruit_counter > 30) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(223 downto 217) and v_cntr_reg_dly(11 downto 5) = snake_body_y(223 downto 217) and fruit_counter > 31) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(230 downto 224) and v_cntr_reg_dly(11 downto 5) = snake_body_y(230 downto 224) and fruit_counter > 32) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(237 downto 231) and v_cntr_reg_dly(11 downto 5) = snake_body_y(237 downto 231) and fruit_counter > 33) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(244 downto 238) and v_cntr_reg_dly(11 downto 5) = snake_body_y(244 downto 238) and fruit_counter > 34) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(251 downto 245) and v_cntr_reg_dly(11 downto 5) = snake_body_y(251 downto 245) and fruit_counter > 35) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(258 downto 252) and v_cntr_reg_dly(11 downto 5) = snake_body_y(258 downto 252) and fruit_counter > 36) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(265 downto 259) and v_cntr_reg_dly(11 downto 5) = snake_body_y(265 downto 259) and fruit_counter > 37) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(272 downto 266) and v_cntr_reg_dly(11 downto 5) = snake_body_y(272 downto 266) and fruit_counter > 38) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(279 downto 273) and v_cntr_reg_dly(11 downto 5) = snake_body_y(279 downto 273) and fruit_counter > 39) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(286 downto 280) and v_cntr_reg_dly(11 downto 5) = snake_body_y(286 downto 280) and fruit_counter > 40) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(293 downto 287) and v_cntr_reg_dly(11 downto 5) = snake_body_y(293 downto 287) and fruit_counter > 41) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(300 downto 294) and v_cntr_reg_dly(11 downto 5) = snake_body_y(300 downto 294) and fruit_counter > 42) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(307 downto 301) and v_cntr_reg_dly(11 downto 5) = snake_body_y(307 downto 301) and fruit_counter > 43) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(314 downto 308) and v_cntr_reg_dly(11 downto 5) = snake_body_y(314 downto 308) and fruit_counter > 44) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(321 downto 315) and v_cntr_reg_dly(11 downto 5) = snake_body_y(321 downto 315) and fruit_counter > 45) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(328 downto 322) and v_cntr_reg_dly(11 downto 5) = snake_body_y(328 downto 322) and fruit_counter > 46) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(335 downto 329) and v_cntr_reg_dly(11 downto 5) = snake_body_y(335 downto 329) and fruit_counter > 47) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(342 downto 336) and v_cntr_reg_dly(11 downto 5) = snake_body_y(342 downto 336) and fruit_counter > 48) else
+                x"0" when (h_cntr_reg_dly(11 downto 5) = snake_body_x(349 downto 343) and v_cntr_reg_dly(11 downto 5) = snake_body_y(349 downto 343) and fruit_counter > 49) else
                -- Colorbar will be on the backround
-               bg_blue_dly;
+               x"F";
                 
 
 ------------------------------------------------------------
@@ -1071,19 +1223,88 @@ end process register_inputs;
   VGA_GREEN_O  <= vga_green_reg;
   VGA_BLUE_O   <= vga_blue_reg;
   
-  
-    -- Set the limit signals
-    -- Moving box limits
-    fruit_left   <= fruit_x;
---    fruit_left   <= fruit_x - conv_integer(ACCEL_RADIUS) - 1;
-    fruit_right  <= fruit_x + conv_integer(ACCEL_RADIUS) + conv_integer(ACCEL_RADIUS);
---    fruit_right  <= fruit_x + conv_integer(ACCEL_RADIUS) + 1;
-    fruit_top	 <= fruit_y;
---    fruit_top	 <= fruit_y - conv_integer(ACCEL_RADIUS) - 1;
-    fruit_bottom <= fruit_y + conv_integer(ACCEL_RADIUS) + conv_integer(ACCEL_RADIUS);
---    fruit_bottom <= fruit_y + conv_integer(ACCEL_RADIUS) + 1;
+                            
+    eaten <= colision_trigger;
     
-    colision_trigger <= '1' when ACL_X_IN_REG = "000000000000" else '0';
+    process(pxl_clk)
+    begin
+        if (pxl_clk'event and pxl_clk = '1') then
+        
+            --timer trigger
+            if (update = '1') then
+                snake_body_x <= snake_body_x(342 downto 0) & ACL_X_IN_REG(11 downto 5);
+                snake_body_y <= snake_body_y(342 downto 0) & ACL_Y_IN_REG(11 downto 5);
+                if (--(ACL_X_IN_REG(11 downto 5) = 0 and ACL_Y_IN_REG(11 downto 5) = 0) or 
+                    (ACL_X_IN_REG(11 downto 5) = fruit_x_reg(11 downto 5) and ACL_Y_IN_REG(11 downto 5) = fruit_y_reg(11 downto 5))) then
+                    colision_trigger <= '1';
+                    fruit_counter <= fruit_counter + 1;
+                else
+                    colision_trigger <= '0';
+                end if;
+            else 
+                colision_trigger <= '0';
+            end if;
+            
+            --check loss
+            if (
+                --(ACL_X_IN_REG(11 downto 5) = snake_body_x(6 downto 0)     and ACL_Y_IN_REG(11 downto 5) = snake_body_y(6 downto 0)     and fruit_counter > 0) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(13 downto 7)    and ACL_Y_IN_REG(11 downto 5) = snake_body_y(13 downto 7)    and fruit_counter > 1) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(20 downto 14)   and ACL_Y_IN_REG(11 downto 5) = snake_body_y(20 downto 14)   and fruit_counter > 2) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(27 downto 21)   and ACL_Y_IN_REG(11 downto 5) = snake_body_y(27 downto 21)   and fruit_counter > 3) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(34 downto 28)   and ACL_Y_IN_REG(11 downto 5) = snake_body_y(34 downto 28)   and fruit_counter > 4) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(41 downto 35)   and ACL_Y_IN_REG(11 downto 5) = snake_body_y(41 downto 35)   and fruit_counter > 5) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(48 downto 42)   and ACL_Y_IN_REG(11 downto 5) = snake_body_y(48 downto 42)   and fruit_counter > 6) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(55 downto 49)   and ACL_Y_IN_REG(11 downto 5) = snake_body_y(55 downto 49)   and fruit_counter > 7) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(62 downto 56)   and ACL_Y_IN_REG(11 downto 5) = snake_body_y(62 downto 56)   and fruit_counter > 8) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(69 downto 63)   and ACL_Y_IN_REG(11 downto 5) = snake_body_y(69 downto 63)   and fruit_counter > 9) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(76 downto 70)   and ACL_Y_IN_REG(11 downto 5) = snake_body_y(76 downto 70)   and fruit_counter > 10) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(83 downto 77)   and ACL_Y_IN_REG(11 downto 5) = snake_body_y(83 downto 77)   and fruit_counter > 11) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(90 downto 84)   and ACL_Y_IN_REG(11 downto 5) = snake_body_y(90 downto 84)   and fruit_counter > 12) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(97 downto 91)   and ACL_Y_IN_REG(11 downto 5) = snake_body_y(97 downto 91)   and fruit_counter > 13) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(104 downto 98)  and ACL_Y_IN_REG(11 downto 5) = snake_body_y(104 downto 98)  and fruit_counter > 14) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(111 downto 105) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(111 downto 105) and fruit_counter > 15) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(118 downto 112) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(118 downto 112) and fruit_counter > 16) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(125 downto 119) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(125 downto 119) and fruit_counter > 17) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(132 downto 126) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(132 downto 126) and fruit_counter > 18) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(139 downto 133) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(139 downto 133) and fruit_counter > 19) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(146 downto 140) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(146 downto 140) and fruit_counter > 20) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(153 downto 147) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(153 downto 147) and fruit_counter > 21) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(160 downto 154) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(160 downto 154) and fruit_counter > 22) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(167 downto 161) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(167 downto 161) and fruit_counter > 23) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(174 downto 168) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(174 downto 168) and fruit_counter > 24) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(181 downto 175) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(181 downto 175) and fruit_counter > 25) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(188 downto 182) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(188 downto 182) and fruit_counter > 26) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(195 downto 189) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(195 downto 189) and fruit_counter > 27) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(202 downto 196) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(202 downto 196) and fruit_counter > 28) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(209 downto 203) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(209 downto 203) and fruit_counter > 29) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(216 downto 210) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(216 downto 210) and fruit_counter > 30) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(223 downto 217) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(223 downto 217) and fruit_counter > 31) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(230 downto 224) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(230 downto 224) and fruit_counter > 32) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(237 downto 231) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(237 downto 231) and fruit_counter > 33) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(244 downto 238) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(244 downto 238) and fruit_counter > 34) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(251 downto 245) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(251 downto 245) and fruit_counter > 35) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(258 downto 252) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(258 downto 252) and fruit_counter > 36) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(265 downto 259) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(265 downto 259) and fruit_counter > 37) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(272 downto 266) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(272 downto 266) and fruit_counter > 38) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(279 downto 273) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(279 downto 273) and fruit_counter > 39) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(286 downto 280) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(286 downto 280) and fruit_counter > 40) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(293 downto 287) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(293 downto 287) and fruit_counter > 41) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(300 downto 294) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(300 downto 294) and fruit_counter > 42) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(307 downto 301) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(307 downto 301) and fruit_counter > 43) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(314 downto 308) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(314 downto 308) and fruit_counter > 44) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(321 downto 315) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(321 downto 315) and fruit_counter > 45) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(328 downto 322) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(328 downto 322) and fruit_counter > 46) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(335 downto 329) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(335 downto 329) and fruit_counter > 47) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(342 downto 336) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(342 downto 336) and fruit_counter > 48) or
+                (ACL_X_IN_REG(11 downto 5) = snake_body_x(349 downto 343) and ACL_Y_IN_REG(11 downto 5) = snake_body_y(349 downto 343) and fruit_counter > 49)
+                ) then
+--                died <= '1';
+                died <= '0';
+            else
+                died <= '0';
+            end if;
+        end if;
+    end process;
     
 
 end Behavioral;

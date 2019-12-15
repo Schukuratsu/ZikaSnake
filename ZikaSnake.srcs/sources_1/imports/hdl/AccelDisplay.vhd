@@ -166,8 +166,7 @@ level_color <= ACTIVE_COLOR when  ACCEL_Y_I >= (FR_XY_V_MID - LEVEL_THRESH) -- U
                               and ACCEL_Y_I <= (FR_XY_V_MID + LEVEL_THRESH) -- Lower boundary
                               and ACCEL_X_I >= (FR_XY_H_MID - LEVEL_THRESH) -- Left boundary
                               and ACCEL_X_I <= (FR_XY_H_MID + LEVEL_THRESH) -- Right boundary
-                            
-                            else WARNING_COLOR;
+                else WARNING_COLOR;
 
 magnitude_color <= ACTIVE_COLOR;              
                      

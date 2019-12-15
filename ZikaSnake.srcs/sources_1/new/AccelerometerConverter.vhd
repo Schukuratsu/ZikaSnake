@@ -47,7 +47,9 @@ Port (
 --    LEVEL_THRESH : out  STD_LOGIC_VECTOR (11 downto 0); -- Size of the internal box in which the moving box is green
     ACL_X_OUT       : out  STD_LOGIC_VECTOR (11 downto 0); -- X Acceleration Data
     ACL_Y_OUT       : out  STD_LOGIC_VECTOR (11 downto 0); -- Y Acceleration Data
-    ACL_MAG_OUT     : out  STD_LOGIC_VECTOR (11 downto 0) -- Acceleration Magnitude
+    ACL_MAG_OUT     : out  STD_LOGIC_VECTOR (11 downto 0); -- Acceleration Magnitude
+    update          : out  STD_LOGIC; -- Counter cycle trigger
+    eaten           : in  STD_LOGIC -- colision trigger
 );
 end AccelerometerConverter;
 
@@ -68,12 +70,12 @@ signal acl_x_left   : STD_LOGIC_VECTOR (7 downto 0);
 signal direction    : STD_LOGIC_VECTOR(1 downto 0);
 
 --current position 
-signal x_pos : STD_LOGIC_VECTOR (11 downto 0) := (others => '0');
-signal y_pos : STD_LOGIC_VECTOR (11 downto 0) := (others => '0');
+signal x_pos : STD_LOGIC_VECTOR (11 downto 0) := "001000000000";
+signal y_pos : STD_LOGIC_VECTOR (11 downto 0) := "001000000000";
 
 --delay to move
-signal counter       : STD_LOGIC_VECTOR (26 downto 0) := "011111111111111111111111111";
-constant counter_max : STD_LOGIC_VECTOR (26 downto 0) := "011111111111111111111111111";
+signal counter     : STD_LOGIC_VECTOR (26 downto 0) := "011111111111111111111111111";
+signal counter_max : STD_LOGIC_VECTOR (26 downto 0) := "011111111111111111111111111";
 
 --movement
 constant step_size   : STD_LOGIC_VECTOR(11 DOWNTO 0) := "000000100000"; --step size = 32 (potency of 2 to be a common divider of the x and y resolutions)
@@ -93,32 +95,37 @@ begin
         acl_x <= ACL_Y_IN;
         acl_mag <= ACL_MAG_IN;
         
-            --determine direction
-            if(acl_x(8) = '0' and acl_y(8) = '1') then --lower right corner
-                if(acl_x_right < acl_y_down) then --right
-                    direction <= "01";
-                else --down
-                    direction <= "10";
-                end if;
-            elsif(acl_x(8) = '1' and acl_y(8) = '1') then --lower left corner
-                if(acl_x_left < acl_y_down) then --left
-                    direction <= "11";
-                else --down
-                    direction <= "10";
-                end if;
-            elsif(acl_x(8) = '0' and acl_y(8) = '0') then --upper right corner
-                if(acl_x_right < acl_y_up) then --right
-                    direction <= "01";
-                else --up
-                    direction <= "00";
-                end if;
-            elsif(acl_x(8) = '1' and acl_y(8) = '0') then --upper left corner
-                if(acl_x_left > acl_y_up) then --up
-                    direction <= "00";
-                else --left
-                    direction <= "11";
-                end if;
+        --decrement time to step if fruit has been eaten
+        if (eaten = '1') then
+            counter_max <= counter_max - "000000010001010101010100000";
+        end if;
+        
+        --determine direction
+        if(acl_x(8) = '0' and acl_y(8) = '1') then --lower right corner
+            if(acl_x_right < acl_y_down) then --right
+                direction <= "01";
+            else --down
+                direction <= "10";
             end if;
+        elsif(acl_x(8) = '1' and acl_y(8) = '1') then --lower left corner
+            if(acl_x_left < acl_y_down) then --left
+                direction <= "11";
+            else --down
+                direction <= "10";
+            end if;
+        elsif(acl_x(8) = '0' and acl_y(8) = '0') then --upper right corner
+            if(acl_x_right < acl_y_up) then --right
+                direction <= "01";
+            else --up
+                direction <= "00";
+            end if;
+        elsif(acl_x(8) = '1' and acl_y(8) = '0') then --upper left corner
+            if(acl_x_left > acl_y_up) then --up
+                direction <= "00";
+            else --left
+                direction <= "11";
+            end if;
+        end if;
         
         if(counter = 0) then
             
@@ -182,4 +189,7 @@ ACL_X_OUT <= x_pos;
 ACL_Y_OUT <= y_pos;
 ACL_MAG_OUT <= acl_mag;
         
+--counter trigger        
+update <= '1' when counter = counter_max else '0';
+
 end Behavioral;

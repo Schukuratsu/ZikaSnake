@@ -104,7 +104,8 @@ PORT(
 -- Fruit
     fruit_x     : in std_logic_vector (11 downto 0);
     fruit_y  : in std_logic_vector (11 downto 0);
-    colision_trigger  : out std_logic
+    eaten  : out std_logic;
+    update  : in std_logic
    );
 END COMPONENT;
 
@@ -149,7 +150,9 @@ Port (
     --    LEVEL_THRESH : out  STD_LOGIC_VECTOR (11 downto 0); -- Size of the internal box in which the moving box is green
     ACL_X_OUT       : out  STD_LOGIC_VECTOR (11 downto 0); -- X Acceleration Data
     ACL_Y_OUT       : out  STD_LOGIC_VECTOR (11 downto 0); -- Y Acceleration Data
-    ACL_MAG_OUT     : out  STD_LOGIC_VECTOR (11 downto 0) -- Acceleration Magnitude
+    ACL_MAG_OUT     : out  STD_LOGIC_VECTOR (11 downto 0); -- Acceleration Magnitude
+    update          : out STD_LOGIC;
+    eaten          : in STD_LOGIC
 );
 end component;
 
@@ -211,7 +214,8 @@ signal acl_mag : STD_LOGIC_VECTOR (11 downto 0);
 -- teste do módulo AccelerometerConverter
 signal fruit_x : STD_LOGIC_VECTOR (11 downto 0);
 signal fruit_y : STD_LOGIC_VECTOR (11 downto 0);
-signal colision_trigger : STD_LOGIC;
+signal eaten : STD_LOGIC;
+signal update : STD_LOGIC;
 
 
 
@@ -283,7 +287,9 @@ begin
       -- Accelerometer data signals
        ACL_X_OUT   => acl_x,
        ACL_Y_OUT   => acl_y,
-       ACL_MAG_OUT => acl_mag
+       ACL_MAG_OUT => acl_mag,
+       update => update,
+       eaten => eaten
    );
 
 ----------------------------------------------------------------------------------
@@ -293,7 +299,7 @@ begin
     Port map( 
        --input
        clk => clk_100MHz_buf,
-       eaten => colision_trigger,
+       eaten => eaten,
        snake_x_pos => acl_x,
        snake_y_pos => acl_y,
        --output
@@ -318,8 +324,8 @@ begin
 --      RGB_LED_BLUE   => rgb_led_blue,
       ACCEL_RADIUS   => X"010",
       LEVEL_THRESH   => X"000",
-      ACL_X_IN       => acl_x,
-      ACL_Y_IN       => acl_y,
+      ACL_X_IN       => acl_y,
+      ACL_Y_IN       => acl_x,
       ACL_MAG_IN     => acl_mag,
 --      MIC_M_DATA_I   => pdm_data_i,
 --      MIC_M_CLK_RISING => pdm_clk_rising,
@@ -329,9 +335,10 @@ begin
 --      ADT7420_TEMP_VALUE_I => tempValue,
 --      ADXL362_TEMP_VALUE_I => ACCEL_TMP
    -- Fruit
-   fruit_x => fruit_x,
-   fruit_y => fruit_y,
-   colision_trigger => colision_trigger
+   fruit_x => fruit_y,
+   fruit_y => fruit_x,
+   eaten => eaten,
+   update => update
       );  
 
 end rtl;
